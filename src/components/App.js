@@ -2,6 +2,7 @@ import "../App.css";
 import React, { Component } from "react";
 import { getCoins } from "../utils/api.js";
 import InfiniteScroll from "react-infinite-scroll-component";
+// import InfiniteScrollComponent from './InfiniteScrollComponent';
 
 class App extends Component {
   state = {
@@ -32,14 +33,15 @@ class App extends Component {
         items: this.state.items.concat(await getCoins(this.state.page)),
         page: this.state.page + 1,
       });
-    }, 200);
+    }, 900);
   };
 
   render() {
     const { items, moreItems } = this.state;
-    // console.log(itemKey);
 
     return (
+      // <InfiniteScrollComponent items={items} pagination={moreItems} fetchData={this.fetchData} />
+
       <InfiniteScroll
         dataLength={typeof items !== "undefined" ? items.length : 250}
         next={this.fetchData}
