@@ -27,9 +27,20 @@ class App extends Component {
   //   }
   // }
 
+  // afterFetch = () => {
+  //   if (this.state.items === prevState.items) {
+  //     this.setState({
+  //       moreItems: false,
+  //     });
+  //   }
+  // };
+
   fetchData = () => {
     setTimeout(async () => {
+      const aa = await getCoins(this.state.page)
+      console.log('yoooni', aa.length)
       this.setState({
+        moreItems: (await getCoins(this.state.page)).length !== 0 ? true : false,
         items: this.state.items.concat(await getCoins(this.state.page)),
         page: this.state.page + 1,
       });
@@ -40,8 +51,6 @@ class App extends Component {
     const { items, moreItems } = this.state;
 
     return (
-      // <InfiniteScrollComponent items={items} pagination={moreItems} fetchData={this.fetchData} />
-
       <InfiniteScroll
         dataLength={typeof items !== "undefined" ? items.length : 250}
         next={this.fetchData}
