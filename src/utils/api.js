@@ -21,24 +21,3 @@ export async function getCoins(pageNum) {
     return response.json();
   });
 }
-
-// export const getFirstCoins = () => {
-//   return firstFetch().then((result) => result);
-// }
-
-// export function getAllCoins() {
-//   allCoins().then((numOfCoins) => {
-//     let numOfFetch = Math.ceil(numOfCoins / params.maxApiListCalls)
-//     console.log(numOfFetch)
-//     for (let i = 0; i < numOfFetch; i++)
-//     {
-//       let fetchPage = i + 1;
-//       fetch(
-//         `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=250&page=${fetchPage}&sparkline=false&price_change_percentage=1h%2C24h%2C7d`
-//       )
-//       .then((response) => response.json())
-//       .then((data) => console.log(data));
-//     }
-//     return
-//   });
-// }
