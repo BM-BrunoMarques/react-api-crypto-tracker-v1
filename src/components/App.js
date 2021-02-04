@@ -7,7 +7,7 @@ import SearchBar from "./SearchBar";
 function App() {
   const [coins, setCoins] = useState([]);
   const [moreItems, setMoreItems] = useState(true);
-  const [page, setPage] = useState(22);
+  const [page, setPage] = useState(1);
   const [numOfPages, setnumOfPages] = useState();
 
   useEffect(() => {
@@ -19,7 +19,7 @@ function App() {
 
   const fetchData = () => {
     setMoreItems(page <= numOfPages);
-    setTimeout(async () => {
+    setTimeout(() => {
       getCoins(page).then((resposeCoins) => {
         setCoins((prevCoins) => prevCoins.concat(resposeCoins));
         setPage((prevPage) => prevPage + 1);
