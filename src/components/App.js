@@ -1,56 +1,46 @@
 import "../App.css";
-import React, { Component } from "react";
-import { getCoins } from "../utils/api.js";
-import InfiniteScroll from 'react-infinite-scroller';
+import React, { useState, useEffect } from "react";
+import { getCoins, getAllCoinsList } from "../utils/api.js";
+import InfiniteScrollComp from "./InfiniteScrollComp";
+import SearchBar from "./SearchBar";
 
-class App extends Component {
-  state = {
-    items: [],
-    moreItems: true,
-    page: 0,
-  };
+function App() {
+  const [coins, setCoins] = useState([]);
+  const [moreItems, setMoreItems] = useState(true);
+  const [page, setPage] = useState(22);
+  const [numOfPages, setnumOfPages] = useState();
 
-  async componentDidMount() {
-    console.log("inAPP : ", this.state.page);
-    this.setState({
-      items: await getCoins(this.state.page),
-      page: this.state.page + 1,
+  useEffect(() => {
+    getAllCoinsList().then((responseAllCoins) => {
+      
+      setnumOfPages(Math.ceil(responseAllCoins.length / 250));
     });
-  }
+  }, []);
 
-  fetchData = () => {
+  const fetchData = () => {
+    setMoreItems(page <= numOfPages);
     setTimeout(async () => {
-      const aa = await getCoins(this.state.page)
-      console.log('yoooni', aa.length)
-      this.setState({
-        moreItems: (await getCoins(this.state.page)).length !== 0 ? true : false,
-        items: this.state.items.concat(await getCoins(this.state.page)),
-        page: this.state.page + 1,
+      getCoins(page).then((resposeCoins) => {
+        setCoins((prevCoins) => prevCoins.concat(resposeCoins));
+        setPage((prevPage) => prevPage + 1);
       });
     }, 900);
   };
 
-  render() {
-    const { items, moreItems } = this.state;
-
-    return (
-      <InfiniteScroll
-        loadMore={this.fetchData}
-        hasMore={moreItems}
-        loader={<h4 key={0}>Loading...</h4>}
-      >
-        {items.map((item, index) => (
-          <div key={item.id.concat(index)}> {item.id} </div>
-        ))
-        }
-        {!moreItems &&
-         <p style={{ textAlign: "center" }}>
-            <b>You have seen it all...</b>
-          </p>
-        }
-      </InfiniteScroll>
-    );
-  }
+  return (
+    <div>
+      {numOfPages && (
+        <div>
+          <SearchBar />
+          <InfiniteScrollComp
+            items={coins}
+            moreItems={moreItems}
+            fetchData={fetchData}
+          />
+        </div>
+      )}
+    </div>
+  );
 }
 
 export default App;
