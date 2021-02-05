@@ -1,46 +1,21 @@
 import "../App.css";
-import React, { useState, useEffect } from "react";
-import { getCoins, getAllCoinsList } from "../utils/api.js";
+import React, {Component} from "react";
 import InfiniteScrollComp from "./InfiniteScrollComp";
 import SearchBar from "./SearchBar";
 
-function App() {
-  const [coins, setCoins] = useState([]);
-  const [moreItems, setMoreItems] = useState(true);
-  const [page, setPage] = useState(1);
-  const [numOfPages, setnumOfPages] = useState();
-
-  useEffect(() => {
-    getAllCoinsList().then((responseAllCoins) => {
-      
-      setnumOfPages(Math.ceil(responseAllCoins.length / 250));
-    });
-  }, []);
-
-  const fetchData = () => {
-    setMoreItems(page <= numOfPages);
-    setTimeout(() => {
-      getCoins(page).then((resposeCoins) => {
-        setCoins((prevCoins) => prevCoins.concat(resposeCoins));
-        setPage((prevPage) => prevPage + 1);
-      });
-    }, 900);
-  };
-
+class App extends React.Component {
+render() {
   return (
     <div>
-      {numOfPages && (
+
         <div>
           <SearchBar />
-          <InfiniteScrollComp
-            items={coins}
-            moreItems={moreItems}
-            fetchData={fetchData}
-          />
+          <InfiniteScrollComp/>
         </div>
-      )}
+
     </div>
   );
+}
 }
 
 export default App;

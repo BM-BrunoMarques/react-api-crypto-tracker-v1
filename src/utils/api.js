@@ -13,19 +13,33 @@ import { params } from "./params.js";
 // };
 
 export async function getCoins(pageNum) {
-  console.log("returnFunc", pageNum);
-  return fetch(
-    `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=250&page=${pageNum}&sparkline=false&price_change_percentage=1h%2C24h%2C7d`
-  ).then((response) => {
-    return response.json();
-  });
+  const coinReq = await fetch(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=250&page=${pageNum}&sparkline=false&price_change_percentage=1h%2C24h%2C7d`);
+  return coinReq.json();
 }
 
 export async function getAllCoinsList() {
-  return fetch("https://api.coingecko.com/api/v3/coins/list").then((response) =>
-    response.json()
-  );
-}
+  const coinReq = await fetch("https://api.coingecko.com/api/v3/coins/list");
+  const coinRes = await coinReq.json();
+
+  const coinList = coinRes.map(({ name, id }) => ({name, id}));
+
+  return coinList
+  };
+
+  // .then(({ name, id }) => {
+  //   test.push({ name, id });
+  //   console.log("here : ", test);
+  //   // return test.push({name, id})
+  // });
+  // .then((response) => {
+  //   // return response
+  //   let searchCoins = [];
+  //   response.map((coin) => {
+  //     searchCoins.push({ coin });
+  //   });
+  //   return searchCoins;
+  // });
+// }
 
 // export const getFirstCoins = () => {
 //   return firstFetch().then((result) => result);
