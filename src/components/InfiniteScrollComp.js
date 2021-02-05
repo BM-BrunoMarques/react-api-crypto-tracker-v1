@@ -22,7 +22,7 @@ function InfiniteScrollComp() {
         setCoins((prevCoins) => prevCoins.concat(responseCoins));
         setPage((prevPage) => prevPage + 1);
       });
-    }, 900);
+    }, 100);
   };
 
   return (

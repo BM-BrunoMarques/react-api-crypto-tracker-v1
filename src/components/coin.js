@@ -2,16 +2,14 @@ import "../App.css";
 import React, { useState, useEffect } from "react";
 
 function Coin(props) {
-  /*Hooks from Props*/
+  // Hooks from props
   const [selectedCoin, setSelectedCoin] = useState(props.selectCoinHook);
-  console.log('coin',selectedCoin)
   useEffect(() => {
-    setSelectedCoin(props.selectCoinHook);
-  }, [props.selectCoinHook]);
-  //.
+    setSelectedCoin(props.selectedCoin);
+  }, [props.selectedCoin]);
 
   const handleSelectedCoin = () => {
-    props.handleSelectCoin('');
+    props.setSelectedCoin("");
   };
 
   return <button onClick={handleSelectedCoin}> {selectedCoin} </button>;

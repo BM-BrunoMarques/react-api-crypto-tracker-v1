@@ -8,21 +8,21 @@ import Coin from "./Coin";
 function App() {
   const [selectedCoin, setSelectedCoin] = useState("");
 
-  const handleSelectCoin = (coin) => {
-    setSelectedCoin(coin);
-  };
-
   return (
     <div>
       <div>
         <SearchBar
-          selectCoinHook={selectedCoin}
-          handleSelectCoin={handleSelectCoin}
+          selectedCoin={selectedCoin}
+          setSelectedCoin={(coin) => setSelectedCoin(coin)}
         />
-        {!selectedCoin 
-        ?<InfiniteScrollComp />
-         : <Coin handleSelectCoin={handleSelectCoin} selectCoinHook={selectedCoin} />
-        }
+        {!selectedCoin ? (
+          <InfiniteScrollComp />
+        ) : (
+          <Coin
+            selectedCoin={selectedCoin}
+            setSelectedCoin={(coin) => setSelectedCoin(coin)}
+          />
+        )}
       </div>
     </div>
   );

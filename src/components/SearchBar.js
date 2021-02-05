@@ -1,20 +1,22 @@
 import "../App.css";
 import React, { useState, useEffect } from "react";
 import { getAllCoinsList } from "../utils/api";
-// import { ReactAutocomplete } from "react-autocomplete";
 
 export default function SearchBar(props) {
   const [searchCoins, setCoins] = useState({});
   const [searchText, setSearchText] = useState("");
   const [display, setDisplay] = useState(false);
 
-  /*Hooks from Props*/
-  const [selectedCoin, setSelectedCoin] = useState(props.selectCoinHook);
+  // Hooks from props
+  const [selectedCoin, setSelectedCoin, setSelect] = useState(
+    props.selectCoinHook
+  );
   useEffect(() => {
-    setSelectedCoin(props.selectCoinHook);
-  }, [props.selectCoinHook]);
-  //.
+    setSelectedCoin(props.selectedCoin);
+    setDisplay(false);
+  }, [props.selectedCoin]);
 
+  //Hooks
   useEffect(() => {
     getAllCoinsList().then((coins) => {
       setCoins(coins);
@@ -25,22 +27,20 @@ export default function SearchBar(props) {
     setDisplay(() => Boolean(searchText));
   }, [searchText]);
 
+  //Functions
   const handleSearch = (e) => {
     setSearchText(e.target.value);
   };
 
-  const handleOnBlur = () => {
-    setDisplay(false);
-  };
-
-  const handleSelectedCoin = (e) => {
-    props.handleSelectCoin(e.target.value);
+  const handleSelectedCoin = async (e) => {
+    await props.setSelectedCoin(e.target.value);
+    setSearchText("");
   };
 
   return (
     <div>
       {searchCoins && (
-        <div onBlur={handleOnBlur}>
+        <div>
           <input
             value={searchText}
             onChange={(e) => handleSearch(e)}
