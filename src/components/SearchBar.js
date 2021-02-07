@@ -1,20 +1,12 @@
 import "../App.css";
 import React, { useState, useEffect } from "react";
 import { getAllCoinsList } from "../utils/api";
+import { Link } from "react-router-dom";
 
 export default function SearchBar(props) {
   const [searchCoins, setCoins] = useState({});
   const [searchText, setSearchText] = useState("");
   const [display, setDisplay] = useState(false);
-
-  // Hooks from props
-  const [selectedCoin, setSelectedCoin, setSelect] = useState(
-    props.selectCoinHook
-  );
-  useEffect(() => {
-    setSelectedCoin(props.selectedCoin);
-    setDisplay(false);
-  }, [props.selectedCoin]);
 
   //Hooks
   useEffect(() => {
@@ -33,8 +25,8 @@ export default function SearchBar(props) {
   };
 
   const handleSelectedCoin = async (e) => {
-    await props.setSelectedCoin(e.target.value);
     setSearchText("");
+    setDisplay(false);
   };
 
   return (
@@ -55,13 +47,20 @@ export default function SearchBar(props) {
                 )
                 .map((key, ind) => {
                   return (
-                    <button
+                    <Link
+                      to={{
+                        pathname: "/coin",
+                        state: {
+                          coinName: key.name,
+                          coinId: key.id
+                        },
+                      }}
                       key={key.id.concat(ind)}
                       value={key.name}
                       onClick={(e) => handleSelectedCoin(e)}
                     >
                       {key.name}
-                    </button>
+                    </Link>
                   );
                 })}
             </div>

@@ -1,18 +1,29 @@
 import "../App.css";
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 function Coin(props) {
   // Hooks from props
-  const [selectedCoin, setSelectedCoin] = useState(props.selectCoinHook);
-  useEffect(() => {
-    setSelectedCoin(props.selectedCoin);
-  }, [props.selectedCoin]);
+  // console.log(props);
+  // const [selectedCoin, setSelectedCoin] = useState(props.selectCoinHook);
+  // useEffect(() => {
+  //   setSelectedCoin(props.selectedCoin);
+  // }, [props.selectedCoin]);
 
-  const handleSelectedCoin = () => {
-    props.setSelectedCoin("");
-  };
-
-  return <button onClick={handleSelectedCoin}> {selectedCoin} </button>;
+  return (
+    <div>
+      <Link
+        to={{
+          pathname: "/",
+          state: {
+            goBack: true
+          },
+        }}
+      >
+        {props.location.state.coinName}
+      </Link>
+    </div>
+  );
 }
 
 export default Coin;
