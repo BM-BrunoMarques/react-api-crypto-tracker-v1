@@ -8,11 +8,15 @@ import SearchBar from "./SearchBar";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 
 function App() {
-  const [coins, setCoins] = useState([]);
+  const [state, setState] = useState({
+    coins: [],
+    page: 1,
+  });
+  const [page, setPage] = useState(1);
+
   const [selectedCoin, setSelectedCoin] = useState("");
   //
   const [moreItems, setMoreItems] = useState(true);
-  const [page, setPage] = useState(1);
   const [numOfPages, setnumOfPages] = useState();
 
   return (
@@ -26,12 +30,10 @@ function App() {
         exact
         component={() => (
           <InfiniteScrollComp
-            coins={coins}
-            setCoins={setCoins}
+            setStateValues={setState}
+            stateValues={state}
             setMoreItems={setMoreItems}
             moreItems={moreItems}
-            page={page}
-            setPage={setPage}
             numOfPages={numOfPages}
             setnumOfPages={setnumOfPages}
           />

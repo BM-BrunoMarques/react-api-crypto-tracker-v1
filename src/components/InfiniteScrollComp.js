@@ -2,30 +2,33 @@ import "../App.css";
 import React, { useState, useEffect, useRef } from "react";
 import { getCoins, getAllCoinsList } from "../utils/api.js";
 import InfiniteScroll from "react-infinite-scroller";
+import { Spin } from "antd";
+import ItemList from "./ItemList";
 
 function InfiniteScrollComp(props) {
- 
-  const [moreItems, setMoreItems] = useState(true);
-  const [page, setPage] = useState(1);
-  const [numOfPages, setnumOfPages] = useState();
-
   useEffect(() => {
-    getAllCoinsList().then((responseAllCoins) => {
-      props.setnumOfPages(Math.ceil(responseAllCoins.length / 250));
-    });
+    if (!props.numOfPages) {
+      getAllCoinsList().then((responseAllCoins) => {
+        props.setnumOfPages(Math.ceil(responseAllCoins.length / 250));
+      });
+    }
   }, []);
 
   const fetchData = () => {
-    console.log("page", props.page);
-    props.setMoreItems(props.page <= props.numOfPages);
+    if (props.stateValues.page > props.numOfPages) {
+      props.setMoreItems(false);
+    }
     setTimeout(() => {
-      getCoins(props.page).then((responseCoins) => {
-        props.setPage((prevPage) => prevPage + 1);
-        props.setCoins((prevCoins) => prevCoins.concat(responseCoins));
+      getCoins(props.stateValues.page).then((responseCoins) => {
+        props.setStateValues((prevState) => {
+          return {
+            coins: prevState.coins.concat(responseCoins),
+            page: prevState.page + 1,
+          };
+        });
       });
-    }, 100);
+    }, 900);
   };
-  console.log("PROPS", props);
   return (
     <div>
       {props.numOfPages && (
@@ -34,10 +37,14 @@ function InfiniteScrollComp(props) {
           hasMore={props.moreItems}
           loader={<h4 key={0}>Loading...</h4>}
         >
-          {props.coins.map((item, indx) => (
-            <div key={item.id.concat(indx)}> {item.image} </div>
-          ))}
-          {!props.moreItems && (
+          {console.log(props.stateValues.coins)}
+          <ItemList coins={props.stateValues.coins} />
+
+          {props.moreItems ? (
+            <div className="demo-loading-container">
+              <Spin tip="Fetching more Coins..." size="large"/>
+            </div>
+          ) : (
             <p style={{ textAlign: "center" }}>
               <b>You have seen it all...</b>
             </p>
