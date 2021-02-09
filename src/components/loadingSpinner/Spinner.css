@@ -1,0 +1,25 @@
+.loadingContainer {
+  width: 100vh;
+  height: 100vw;
+  position: fixed;
+  z-index: 2;
+}
+.backgroundBlur {
+  width: 100vh;
+  height: 100vw;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  /* -webkit-filter: blur(5px);
+  -moz-filter: blur(5px);
+  -o-filter: blur(5px);
+  -ms-filter: blur(5px); */
+ 
+  justify-content: center;
+  align-items: center;
+}
+
+.ant-spin-spinning {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+}

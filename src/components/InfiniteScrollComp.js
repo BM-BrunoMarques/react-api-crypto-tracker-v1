@@ -1,11 +1,20 @@
 import "../App.css";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { getCoins, getAllCoinsList } from "../utils/api.js";
 import InfiniteScroll from "react-infinite-scroller";
-import { Spin } from "antd";
-import ItemList from "./ItemList";
+import { Spinner } from "./loadingSpinner/Spinner";
+import { CurrencyCard } from "./CurrencyCard/CurrencyCard";
+import { stateCoinsContext } from "./App";
 
-function InfiniteScrollComp(props) {
+export default function InfiniteScrollComp(props) {
+  const [isLoading, setLoading] = useState(false);
+  const { selectedCoin, moreItems, numOfPages, stateCoins, scrollParentRef } = useContext(stateCoinsContext)
+
+  // moreItems: [moreItems, setMoreItems],
+  // numOfPages: [numOfPages, setnumOfPages],
+  // stateCoins: [stateValues, setStateValues],
+  // scrollParentRef: scrollParentRef
+
   useEffect(() => {
     if (!props.numOfPages) {
       getAllCoinsList().then((responseAllCoins) => {
@@ -14,45 +23,56 @@ function InfiniteScrollComp(props) {
     }
   }, []);
 
+  useEffect(() => {
+    console.log("load changed :", isLoading);
+  }, [isLoading]);
+
+  //when re-renders it defaults state weeird
   const fetchData = () => {
-    if (props.stateValues.page > props.numOfPages) {
-      props.setMoreItems(false);
+    if (isLoading) {
+      return;
     }
-    setTimeout(() => {
-      getCoins(props.stateValues.page).then((responseCoins) => {
-        props.setStateValues((prevState) => {
-          return {
-            coins: prevState.coins.concat(responseCoins),
-            page: prevState.page + 1,
-          };
-        });
+    setLoading(true);
+    console.log("FETCH aaaa:", moreItems);
+    if (props.stateValues.page > props.numOfPages) {
+      moreItems.setMoreItems(false);
+    }
+    getCoins(props.stateValues.page).then((responseCoins) => {
+      props.setStateValues((prevState) => {
+        return {
+          coins: prevState.coins.concat(responseCoins),
+          page: prevState.page + 1,
+        };
       });
-    }, 900);
+    });
   };
   return (
     <div>
+      {console.log("REEEF", props.scrollParentRef)}
+
+      {isLoading && <Spinner />}
       {props.numOfPages && (
         <InfiniteScroll
           loadMore={fetchData}
-          hasMore={props.moreItems}
-          loader={<h4 key={0}>Loading...</h4>}
+          hasMore={moreItems}
+          getScrollParent={() => props.scrollParentRef.current}
+          useWindow={false}
         >
           {console.log(props.stateValues.coins)}
-          <ItemList coins={props.stateValues.coins} />
 
-          {props.moreItems ? (
+          <CurrencyCard coins={props.stateValues.coins} />
+
+          {/* {props.moreItems ? (
             <div className="demo-loading-container">
-              <Spin tip="Fetching more Coins..." size="large"/>
+              <Spin tip="Fetching more Coins..." size="large" />
             </div>
           ) : (
             <p style={{ textAlign: "center" }}>
               <b>You have seen it all...</b>
             </p>
-          )}
+          )} */}
         </InfiniteScroll>
       )}
     </div>
   );
 }
-
-export default InfiniteScrollComp;
