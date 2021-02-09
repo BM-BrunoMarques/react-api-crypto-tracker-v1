@@ -7,8 +7,9 @@ import { CurrencyCard } from "./CurrencyCard/CurrencyCard";
 import { stateCoinsContext } from "./App";
 
 export default function InfiniteScrollComp(props) {
-  const [isLoading, setLoading] = useState(false);
-  const { selectedCoin, moreItems, numOfPages, stateCoins, scrollParentRef } = useContext(stateCoinsContext)
+  const { moreItems, numOfPages, stateCoins, scrollParentRef } = useContext(
+    stateCoinsContext
+  );
 
   // moreItems: [moreItems, setMoreItems],
   // numOfPages: [numOfPages, setnumOfPages],
@@ -23,17 +24,12 @@ export default function InfiniteScrollComp(props) {
     }
   }, []);
 
-  useEffect(() => {
-    console.log("load changed :", isLoading);
-  }, [isLoading]);
-
   //when re-renders it defaults state weeird
   const fetchData = () => {
-    if (isLoading) {
+    if (props.isLoading) {
       return;
     }
-    setLoading(true);
-    console.log("FETCH aaaa:", moreItems);
+    props.setLoading(true);
     if (props.stateValues.page > props.numOfPages) {
       moreItems.setMoreItems(false);
     }
@@ -44,13 +40,13 @@ export default function InfiniteScrollComp(props) {
           page: prevState.page + 1,
         };
       });
+      props.setLoading(false);
     });
   };
+  console.log(' help -> ',moreItems)
   return (
     <div>
-      {console.log("REEEF", props.scrollParentRef)}
-
-      {isLoading && <Spinner />}
+      {props.isLoading && <Spinner />}
       {props.numOfPages && (
         <InfiniteScroll
           loadMore={fetchData}
@@ -58,8 +54,6 @@ export default function InfiniteScrollComp(props) {
           getScrollParent={() => props.scrollParentRef.current}
           useWindow={false}
         >
-          {console.log(props.stateValues.coins)}
-
           <CurrencyCard coins={props.stateValues.coins} />
 
           {/* {props.moreItems ? (

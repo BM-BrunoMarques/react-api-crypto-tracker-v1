@@ -22,6 +22,8 @@ function App() {
   const [selectedCoin, setSelectedCoin] = useState("");
   const [moreItems, setMoreItems] = useState(true);
   const [numOfPages, setnumOfPages] = useState();
+  const [isLoading, setLoading] = useState(false);
+
 
   // const store = {
   //   sharing: [sharing, setSharing],
@@ -67,6 +69,8 @@ function App() {
                   moreItems={moreItems}
                   numOfPages={numOfPages}
                   setnumOfPages={setnumOfPages}
+                  isLoading={isLoading}
+                  setLoading={setLoading}
                 />
               )}
             />
