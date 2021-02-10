@@ -5,8 +5,9 @@ import Home from "./Home";
 import InfiniteScrollComp from "./InfiniteScrollComp";
 import SearchBar from "./SearchBar";
 
-import { BrowserRouter as Router, Route } from "react-router-dom";
-
+import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { Layout, Row, Col } from "antd";
+const { Content } = Layout;
 export const stateCoinsContext = createContext();
 
 function App() {
@@ -24,61 +25,51 @@ function App() {
   const [numOfPages, setnumOfPages] = useState();
   const [isLoading, setLoading] = useState(false);
 
-
   // const store = {
   //   sharing: [sharing, setSharing],
   //   help: [help, setHelp],
   //   pairing: [pairing, setPairing],
   // };
   const coinsStoreContext = {
-    selectedCoin: [selectedCoin, setSelectedCoin],
-    moreItems: [moreItems, setMoreItems],
-    numOfPages: [numOfPages, setnumOfPages],
-    stateCoins: [stateValues, setStateValues],
-    scrollParentRef: scrollParentRef
+    selectedCoinC: [selectedCoin, setSelectedCoin],
+    moreItemsC: [moreItems, setMoreItems],
+    numOfPagesC: [numOfPages, setnumOfPages],
+    stateCoinsC: [stateValues, setStateValues],
+    isLoadingC: [isLoading, setLoading],
+    scrollParentRefC: scrollParentRef,
   };
 
   return (
-    <Router>
-      <SearchBar
-        selectedCoin={selectedCoin}
-        setSelectedCoin={setSelectedCoin}
-      />
-      <stateCoinsContext.Provider value={coinsStoreContext}>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            height: "100%",
-          }}
-        >
-          <div
-            ref={scrollParentRef}
-            style={{ width: "600px", height: "750px", overflowY: "scroll" }}
-          >
-            <Route
-              path="/"
-              exact
-              component={() => (
-                <InfiniteScrollComp
-                  scrollParentRef={scrollParentRef}
-                  setStateValues={setStateValues}
-                  stateValues={stateValues}
-                  setMoreItems={setMoreItems}
-                  moreItems={moreItems}
-                  numOfPages={numOfPages}
-                  setnumOfPages={setnumOfPages}
-                  isLoading={isLoading}
-                  setLoading={setLoading}
+    <Layout style={{ height: "100%" }}>
+      <Content>
+        <BrowserRouter>
+          <Row style={{ height: "100%" }} align="middle">
+            <Col
+              xs={{ span: 24, offset: 0 }}
+              sm={{ span: 12, offset: 6 }}
+              xl={{ span: 10, offset: 8 }}
+            >
+              <stateCoinsContext.Provider value={coinsStoreContext}>
+                <SearchBar
+                  selectedCoin={selectedCoin}
+                  setSelectedCoin={setSelectedCoin}
                 />
-              )}
-            />
-          </div>
-        </div>
-        <Route path="/coin" exact component={Coin} />
-      </stateCoinsContext.Provider>
-    </Router>
+                <div
+                  ref={scrollParentRef}
+                  style={{
+                    maxHeight: "750px",
+                    overflowY: "scroll",
+                  }}
+                >
+                  <Route path="/" exact component={InfiniteScrollComp} />
+                </div>
+                <Route path="/coin" component={Coin} />
+              </stateCoinsContext.Provider>
+            </Col>
+          </Row>
+        </BrowserRouter>
+      </Content>
+    </Layout>
   );
 }
 

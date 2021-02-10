@@ -7,54 +7,62 @@ import { CurrencyCard } from "./CurrencyCard/CurrencyCard";
 import { stateCoinsContext } from "./App";
 
 export default function InfiniteScrollComp(props) {
-  const { moreItems, numOfPages, stateCoins, scrollParentRef } = useContext(
-    stateCoinsContext
-  );
-
-  // moreItems: [moreItems, setMoreItems],
-  // numOfPages: [numOfPages, setnumOfPages],
-  // stateCoins: [stateValues, setStateValues],
-  // scrollParentRef: scrollParentRef
+  const {
+    moreItemsC,
+    numOfPagesC,
+    stateCoinsC,
+    isLoadingC,
+    scrollParentRefC,
+    selectedCoinC,
+  } = useContext(stateCoinsContext);
+  const [selectedCoin, setSelectedCoin] = selectedCoinC;
+  const [moreItems, setMoreItems] = moreItemsC;
+  const [numOfPages, setnumOfPages] = numOfPagesC;
+  const [stateValues, setStateValues] = stateCoinsC;
+  const [isLoading, setLoading] = isLoadingC;
 
   useEffect(() => {
-    if (!props.numOfPages) {
+    if (!numOfPages) {
       getAllCoinsList().then((responseAllCoins) => {
-        props.setnumOfPages(Math.ceil(responseAllCoins.length / 250));
+        setnumOfPages(Math.ceil(responseAllCoins.length / 250));
       });
+    }
+
+    if (selectedCoin) {
+      document?.getElementById(selectedCoin)?.scrollIntoView();
     }
   }, []);
 
-  //when re-renders it defaults state weeird
   const fetchData = () => {
-    if (props.isLoading) {
+    if (isLoading) {
       return;
     }
-    props.setLoading(true);
-    if (props.stateValues.page > props.numOfPages) {
-      moreItems.setMoreItems(false);
+    setLoading(true);
+    if (stateValues.page > numOfPages) {
+      setMoreItems(false);
     }
-    getCoins(props.stateValues.page).then((responseCoins) => {
-      props.setStateValues((prevState) => {
+    getCoins(stateValues.page).then((responseCoins) => {
+      setStateValues((prevState) => {
         return {
           coins: prevState.coins.concat(responseCoins),
           page: prevState.page + 1,
         };
       });
-      props.setLoading(false);
+      setLoading(false);
     });
   };
-  console.log(' help -> ',moreItems)
   return (
     <div>
-      {props.isLoading && <Spinner />}
-      {props.numOfPages && (
+      {isLoading && <Spinner />}
+      {/* {<Spinner />} */}
+      {numOfPages && (
         <InfiniteScroll
           loadMore={fetchData}
           hasMore={moreItems}
-          getScrollParent={() => props.scrollParentRef.current}
+          getScrollParent={() => scrollParentRefC.current}
           useWindow={false}
         >
-          <CurrencyCard coins={props.stateValues.coins} />
+          <CurrencyCard coins={stateValues.coins} />
 
           {/* {props.moreItems ? (
             <div className="demo-loading-container">

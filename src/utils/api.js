@@ -19,10 +19,13 @@ export async function getCoins(pageNum) {
 }
 
 export async function getAllCoinsList() {
-  const coinReq = await fetch("https://api.coingecko.com/api/v3/coins/list");
+  const coinReq = await fetch("https://api.coingecko.com/api/v3/coins/list?include_platform=false");
   const coinRes = await coinReq.json();
 
-  const coinList = coinRes.map(({ name, id }) => ({name, id}));
+  const coinList = coinRes.map(({ name, id }) => {
+    const coin = {value: id, label: name}
+    return coin;
+  });
 
   return coinList
   };

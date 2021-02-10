@@ -1,15 +1,23 @@
 import { Card, Avatar } from "antd";
+import { Link } from "react-router-dom";
 
 export const CurrencyCard = ({ coins }) => (
   <div>
     {coins.map((coin, indx) => (
-      <Card
+      <Link
         key={coin.id.concat(indx)}
-        style={{ display: "flex", flexDirection: "row", marginBottom: "8px" }}
+        to={{
+          pathname: "/coin/" + coin.id,
+        }}
       >
-        <Avatar src={coin.image} />
-        <span>{coin.name}</span>
-      </Card>
+        <Card
+          id={coin.id}
+          style={{ display: "flex", flexDirection: "row", marginBottom: "8px" }}
+        >
+          <Avatar src={coin.image} />
+          <span>{coin.name}</span>
+        </Card>
+      </Link>
     ))}
   </div>
 );
