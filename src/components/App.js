@@ -1,9 +1,11 @@
 import "../App.css";
 import React, { useState, useEffect, useRef, createContext } from "react";
+import { getCoins } from "../utils/api.js";
+
 import Coin from "./Coin";
-import Home from "./Home";
 import InfiniteScrollComp from "./InfiniteScrollComp";
 import SearchBar from "./SearchBar";
+import TableScroll from "./TableScroll/TableScroll";
 
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { Layout, Row, Col } from "antd";
@@ -18,7 +20,7 @@ function App() {
     page: 1,
     isLoading: false,
   });
-  const [page, setPage] = useState(1);
+  // const [page, setPage] = useState(1);
 
   const [selectedCoin, setSelectedCoin] = useState("");
   const [moreItems, setMoreItems] = useState(true);
@@ -39,6 +41,18 @@ function App() {
     scrollParentRefC: scrollParentRef,
   };
 
+  // useEffect(() => {
+  //   getCoins(stateValues.page).then((responseCoins) => {
+  //     setStateValues((prevState) => {
+  //       return {
+  //         coins: prevState.coins.concat(responseCoins),
+  //         page: prevState.page + 1,
+  //       };
+  //     });
+  //   });
+  // }, []);
+  console.log(stateValues.coins);
+
   return (
     <Layout style={{ height: "100%" }}>
       <Content>
@@ -47,7 +61,7 @@ function App() {
             <Col
               xs={{ span: 24, offset: 0 }}
               sm={{ span: 12, offset: 6 }}
-              xl={{ span: 10, offset: 8 }}
+              xl={{ span: 14, offset: 5 }}
             >
               <stateCoinsContext.Provider value={coinsStoreContext}>
                 <SearchBar
@@ -62,6 +76,7 @@ function App() {
                   }}
                 >
                   <Route path="/" exact component={InfiniteScrollComp} />
+                  {/* <Route path="/" exact component={TableScroll} /> */}
                 </div>
                 <Route path="/coin" component={Coin} />
               </stateCoinsContext.Provider>

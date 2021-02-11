@@ -1,0 +1,16 @@
+.ant-table {
+  background: none;
+}
+tr.ant-table-row {
+  background: #fff;
+}
+.ant-table-body table{
+    border-collapse: separate;
+    border-spacing: 0 1em;
+}
+
+.title{
+    margin-left: 2px;
+    font-size: 12px;
+    font-weight: bold;
+}
