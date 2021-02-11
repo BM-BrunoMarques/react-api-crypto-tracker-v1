@@ -3,14 +3,42 @@
 }
 tr.ant-table-row {
   background: #fff;
+  cursor: pointer;
 }
-.ant-table-body table{
-    border-collapse: separate;
-    border-spacing: 0 1em;
+.ant-table-body table {
+  border-collapse: separate;
+  border-spacing: 0 1em;
 }
 
-.title{
-    margin-left: 2px;
-    font-size: 12px;
-    font-weight: bold;
+.ant-table-tbody > tr > td {
+  padding: 24px 10px;
+}
+/* row tags */
+.my-tag {
+  font-size: 12px;
+}
+.ant-table-thead > tr > th {
+  padding: 10px;
+}
+
+/**rows info**/
+
+.symbol {
+  font-style: italic;
+  font-size: 11px;
+}
+
+.title {
+  margin-left: 3px;
+  font-size: 13px;
+  font-weight: bold;
+  align-self: center;
+}
+
+.percent.negative {
+  color: #e15241;
+}
+
+.percent.positive {
+  color: #4eaf0a;
 }

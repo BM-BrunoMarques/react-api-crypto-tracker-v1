@@ -46,7 +46,9 @@ export default function InfiniteScrollComp(props) {
     getCoins(stateValues.page).then((responseCoins) => {
       setStateValues((prevState) => {
         return {
-          coins: prevState.coins.concat(responseCoins),
+          coins: prevState.coins
+            .concat(responseCoins)
+            .filter((val, id, array) => array.indexOf(val) == id),
           page: prevState.page + 1,
         };
       });
@@ -63,14 +65,13 @@ export default function InfiniteScrollComp(props) {
           getScrollParent={() => scrollParentRefC.current}
           useWindow={false}
         >
-          <TableScroll/>
+          <TableScroll />
           {/* <CurrencyCard coins={stateValues.coins} /> */}
           {!moreItems && (
             <p style={{ textAlign: "center" }}>
               <b>You have seen it all...</b>
             </p>
           )}
-
         </InfiniteScroll>
       )}
     </div>

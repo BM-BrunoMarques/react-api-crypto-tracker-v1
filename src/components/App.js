@@ -41,18 +41,7 @@ function App() {
     scrollParentRefC: scrollParentRef,
   };
 
-  // useEffect(() => {
-  //   getCoins(stateValues.page).then((responseCoins) => {
-  //     setStateValues((prevState) => {
-  //       return {
-  //         coins: prevState.coins.concat(responseCoins),
-  //         page: prevState.page + 1,
-  //       };
-  //     });
-  //   });
-  // }, []);
   console.log(stateValues.coins);
-
   return (
     <Layout style={{ height: "100%" }}>
       <Content>
@@ -60,8 +49,8 @@ function App() {
           <Row style={{ height: "100%" }} align="middle">
             <Col
               xs={{ span: 24, offset: 0 }}
-              sm={{ span: 12, offset: 6 }}
-              xl={{ span: 14, offset: 5 }}
+              sm={{ span: 18, offset: 3 }}
+              xl={{ span: 18, offset: 3 }}
             >
               <stateCoinsContext.Provider value={coinsStoreContext}>
                 <SearchBar
@@ -71,7 +60,8 @@ function App() {
                 <div
                   ref={scrollParentRef}
                   style={{
-                    maxHeight: "750px",
+                    minHeight:"500px",
+                    maxHeight: "70vh",
                     overflowY: "scroll",
                   }}
                 >
