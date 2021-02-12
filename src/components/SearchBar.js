@@ -9,7 +9,7 @@ import { stateCoinsContext } from "./App";
 export default function SearchBar(props) {
   //useContext
   const { selectedCoinC } = useContext(stateCoinsContext);
-  const [setSelectedCoin] = selectedCoinC;
+  const [selectedCoin, setSelectedCoin] = selectedCoinC;
   //useState
   const [searchCoins, setCoins] = useState([]);
   const [searchOptions, setOptions] = useState([]);

@@ -13,8 +13,8 @@ export default function TableScroll() {
   const history = useHistory();
 
   const config = {
-    height: 40,
-    width: 100,
+    height: 60,
+    width: 80,
     autoFit: false,
     smooth: false,
 
@@ -27,8 +27,6 @@ export default function TableScroll() {
       shadowBlur: 10,
       shadowOffsetX: 5,
       shadowOffsetY: 5,
-      cursor: "pointer",
-      tickMethod: "pow",
     },
   };
 
@@ -120,8 +118,9 @@ export default function TableScroll() {
       key: "sparkline_in_7d",
       align: "center",
       width: 100,
+      height: 60,
       render: ({ price }) => {
-        // const dataMod = sparkline.price.map((price) => price ** 2);
+        // const dataMod = price.map((price) => price.toFixed(4));
 
         return <TinyLine data={price} {...config} />;
         // const sparklinePrices = sparkline.price.map((price, indx) => ({
