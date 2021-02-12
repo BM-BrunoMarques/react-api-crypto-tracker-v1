@@ -1,6 +1,6 @@
 import "../App.css";
 import React, { useEffect, useContext } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { stateCoinsContext } from "./App";
 
 function Coin(props) {

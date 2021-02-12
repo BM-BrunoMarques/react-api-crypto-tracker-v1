@@ -1,13 +1,11 @@
 import "../App.css";
-import React, { useState, useEffect, useRef, createContext } from "react";
-import { getCoins } from "../utils/api.js";
+import React, { useState, useRef, createContext } from "react";
 
 import Coin from "./Coin";
 import InfiniteScrollComp from "./InfiniteScrollComp";
 import SearchBar from "./SearchBar";
-import TableScroll from "./TableScroll/TableScroll";
 
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { BrowserRouter, Route } from "react-router-dom";
 import { Layout, Row, Col } from "antd";
 const { Content } = Layout;
 export const stateCoinsContext = createContext();

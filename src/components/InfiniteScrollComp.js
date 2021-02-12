@@ -1,11 +1,9 @@
 import "../App.css";
-import React, { useState, useEffect, useContext } from "react";
+import React, { useEffect, useContext } from "react";
 import { getCoins, getAllCoinsList } from "../utils/api.js";
 import InfiniteScroll from "react-infinite-scroller";
 import { Spinner } from "./loadingSpinner/Spinner";
-import { CurrencyCard } from "./CurrencyCard/CurrencyCard";
 import { stateCoinsContext } from "./App";
-import { Table, Avatar } from "antd";
 import TableScroll from "./TableScroll/TableScroll";
 
 export default function InfiniteScrollComp(props) {
@@ -18,7 +16,7 @@ export default function InfiniteScrollComp(props) {
     selectedCoinC,
   } = useContext(stateCoinsContext);
 
-  const [selectedCoin, setSelectedCoin] = selectedCoinC;
+  const [selectedCoin] = selectedCoinC;
   const [moreItems, setMoreItems] = moreItemsC;
   const [numOfPages, setnumOfPages] = numOfPagesC;
   const [stateValues, setStateValues] = stateCoinsC;
@@ -48,7 +46,7 @@ export default function InfiniteScrollComp(props) {
         return {
           coins: prevState.coins
             .concat(responseCoins)
-            .filter((val, id, array) => array.indexOf(val) == id),
+            .filter((val, id, array) => array.indexOf(val) === id),
           page: prevState.page + 1,
         };
       });

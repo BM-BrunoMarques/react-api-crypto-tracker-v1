@@ -1,7 +1,6 @@
 import "../App.css";
 import React, { useState, useEffect, useContext } from "react";
 import { getAllCoinsList } from "../utils/api";
-import { Link } from "react-router-dom";
 import { AutoComplete } from "antd";
 import { Sorter } from "./AutoComplete/Sorter";
 import { useHistory } from "react-router-dom";
@@ -10,7 +9,7 @@ import { stateCoinsContext } from "./App";
 export default function SearchBar(props) {
   //useContext
   const { selectedCoinC } = useContext(stateCoinsContext);
-  const [selectedCoin, setSelectedCoin] = selectedCoinC;
+  const [setSelectedCoin] = selectedCoinC;
   //useState
   const [searchCoins, setCoins] = useState([]);
   const [searchOptions, setOptions] = useState([]);
