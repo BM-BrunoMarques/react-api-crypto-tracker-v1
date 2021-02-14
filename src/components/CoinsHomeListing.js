@@ -4,6 +4,7 @@ import { getCoins, getAllCoinsList } from "../utils/api.js";
 import InfiniteScroll from "react-infinite-scroller";
 import { Spinner } from "./loadingSpinner/Spinner";
 import { stateCoinsContext } from "./App";
+import { CurrencyCard } from "./CurrencyCard/CurrencyCard";
 import TableScroll from "./TableScroll/TableScroll";
 
 export default function CoinsHomeListing(props) {
@@ -14,6 +15,7 @@ export default function CoinsHomeListing(props) {
     isLoadingC,
     scrollParentRefC,
     selectedCoinC,
+    scrollPositionC,
   } = useContext(stateCoinsContext);
   const scrollParentRef = useRef(null);
 
@@ -22,6 +24,7 @@ export default function CoinsHomeListing(props) {
   const [numOfPages, setnumOfPages] = numOfPagesC;
   const [stateValues, setStateValues] = stateCoinsC;
   const [isLoading, setLoading] = isLoadingC;
+  const [scrollPosition, setScrollPosition] = scrollPositionC;
 
   useEffect(() => {
     if (!numOfPages) {
@@ -29,13 +32,15 @@ export default function CoinsHomeListing(props) {
         setnumOfPages(Math.ceil(responseAllCoins.length / 250));
       });
     }
-
-    if (selectedCoin) {
-      document?.getElementById(selectedCoin)?.scrollIntoView();
-    }
-
-    setLoading(false)
+    setLoading(false);
   }, []);
+
+  useEffect(() => {
+    setLoading(false);
+    if (scrollPosition) {
+      document?.getElementById(scrollPosition)?.scrollIntoView();
+    }
+  }, [selectedCoin]);
 
   const fetchData = () => {
     if (isLoading || !moreItems) return;
@@ -67,9 +72,8 @@ export default function CoinsHomeListing(props) {
         overflowY: "scroll",
       }}
     >
-      {isLoading && <Spinner tip='Fetching more coins...' />}
+      {isLoading && <Spinner tip="Fetching more coins..." />}
 
-      
       {numOfPages && (
         <InfiniteScroll
           loadMore={fetchData}

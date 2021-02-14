@@ -25,6 +25,7 @@ function App() {
   const [numOfPages, setnumOfPages] = useState();
   const [isLoading, setLoading] = useState(false);
   const [searchText, setSearchText] = useState("");
+  const [scrollPosition, setScrollPosition] = useState("");
 
   const coinsStoreContext = {
     selectedCoinC: [selectedCoin, setSelectedCoin],
@@ -33,6 +34,7 @@ function App() {
     stateCoinsC: [stateValues, setStateValues],
     isLoadingC: [isLoading, setLoading],
     searchTextC: [searchText, setSearchText],
+    scrollPositionC: [scrollPosition, setScrollPosition],
     scrollParentRefC: scrollParentRef,
   };
 
@@ -42,10 +44,7 @@ function App() {
         <BrowserRouter>
           <Header>
             <Row style={{ width: "100%" }} align="middle" justify="end">
-              <Col
-                xs={{ span: 10, offset: 9 }}
-                xl={{ span: 5, offset: 18 }}
-              >
+              <Col xs={{ span: 10, offset: 9 }} xl={{ span: 5, offset: 18 }}>
                 <SearchBar
                   selectedCoin={selectedCoin}
                   setSelectedCoin={setSelectedCoin}
@@ -60,8 +59,7 @@ function App() {
                 sm={{ span: 18, offset: 3 }}
                 xl={{ span: 18, offset: 3 }}
               >
-                <Route path="/" exact component={CoinsHomeListing} />
-
+                <Route path="/" component={CoinsHomeListing} />
                 <Route path="/coin" component={Coin} />
               </Col>
             </Row>
