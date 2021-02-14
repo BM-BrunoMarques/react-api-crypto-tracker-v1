@@ -1,9 +1,10 @@
 import "../App.css";
-import React, { useState, useRef, createContext } from "react";
+import React, { useState, useRef, createContext, useEffect } from "react";
 
 import Coin from "./Coin";
 import InfiniteScrollComp from "./InfiniteScrollComp";
 import SearchBar from "./SearchBar";
+import { Spinner } from "./loadingSpinner/Spinner";
 
 import { BrowserRouter, Route } from "react-router-dom";
 import { Layout, Row, Col } from "antd";
@@ -39,7 +40,6 @@ function App() {
     scrollParentRefC: scrollParentRef,
   };
 
-  console.log(stateValues.coins);
   return (
     <Layout style={{ height: "100%" }}>
       <Content>
@@ -55,17 +55,18 @@ function App() {
                   selectedCoin={selectedCoin}
                   setSelectedCoin={setSelectedCoin}
                 />
-                <div
+                {isLoading && <Spinner />}
+                {/* <div
                   ref={scrollParentRef}
                   style={{
-                    minHeight:"500px",
+                    minHeight: "500px",
                     maxHeight: "70vh",
                     overflowY: "scroll",
                   }}
-                >
-                  <Route path="/" exact component={InfiniteScrollComp} />
-                  {/* <Route path="/" exact component={TableScroll} /> */}
-                </div>
+                > */}
+                <Route path="/" exact component={InfiniteScrollComp} />
+                {/* <Route path="/" exact component={TableScroll} /> */}
+                {/* </div> */}
                 <Route path="/coin" component={Coin} />
               </stateCoinsContext.Provider>
             </Col>

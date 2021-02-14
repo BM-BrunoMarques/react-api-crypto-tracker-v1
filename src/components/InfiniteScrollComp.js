@@ -1,5 +1,5 @@
 import "../App.css";
-import React, { useEffect, useContext } from "react";
+import React, { useEffect, useContext, useRef } from "react";
 import { getCoins, getAllCoinsList } from "../utils/api.js";
 import InfiniteScroll from "react-infinite-scroller";
 import { Spinner } from "./loadingSpinner/Spinner";
@@ -15,6 +15,7 @@ export default function InfiniteScrollComp(props) {
     scrollParentRefC,
     selectedCoinC,
   } = useContext(stateCoinsContext);
+  const scrollParentRef = useRef(null);
 
   const [selectedCoin] = selectedCoinC;
   const [moreItems, setMoreItems] = moreItemsC;
@@ -32,6 +33,8 @@ export default function InfiniteScrollComp(props) {
     if (selectedCoin) {
       document?.getElementById(selectedCoin)?.scrollIntoView();
     }
+
+    setLoading(false)
   }, []);
 
   const fetchData = () => {
@@ -42,6 +45,8 @@ export default function InfiniteScrollComp(props) {
       setMoreItems(false);
     }
     getCoins(stateValues.page).then((responseCoins) => {
+      console.log("fetched");
+
       setStateValues((prevState) => {
         return {
           coins: prevState.coins
@@ -54,8 +59,15 @@ export default function InfiniteScrollComp(props) {
     });
   };
   return (
-    <div>
-      {isLoading && <Spinner />}
+    <div
+      ref={scrollParentRef}
+      style={{
+        minHeight: "500px",
+        maxHeight: "70vh",
+        overflowY: "scroll",
+      }}
+    >
+      {/* {isLoading && <Spinner />} */}
       {numOfPages && (
         <InfiniteScroll
           loadMore={fetchData}

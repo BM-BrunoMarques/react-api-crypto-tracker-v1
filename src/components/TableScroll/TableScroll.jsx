@@ -6,6 +6,7 @@ import { formatPrice, formatPercentage } from "../../utils/helpers";
 import { useHistory } from "react-router-dom";
 
 import "./TableScroll.css";
+import TinyLineChart from "@ant-design/charts/es/tinyLine";
 
 export default function TableScroll() {
   const { stateCoinsC } = useContext(stateCoinsContext);
@@ -17,6 +18,7 @@ export default function TableScroll() {
     width: 80,
     autoFit: false,
     smooth: false,
+    passive: false,
 
     lineStyle: {
       stroke: "blue",
@@ -28,6 +30,7 @@ export default function TableScroll() {
       shadowOffsetX: 5,
       shadowOffsetY: 5,
     },
+    
   };
 
   const columns = [

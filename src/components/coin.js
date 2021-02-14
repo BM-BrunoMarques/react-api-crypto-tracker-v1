@@ -1,11 +1,14 @@
 import "../App.css";
 import React, { useEffect, useContext } from "react";
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { stateCoinsContext } from "./App";
+import { Spinner } from "./loadingSpinner/Spinner";
 
 function Coin(props) {
-  const { selectedCoinC } = useContext(stateCoinsContext);
+  const { selectedCoinC, isLoadingC } = useContext(stateCoinsContext);
   const [selectedCoin, setSelectedCoin] = selectedCoinC;
+  const [isLoading, setLoading] = isLoadingC;
+
   const history = useHistory();
 
   const { coinId } = props.history.location;
@@ -23,13 +26,17 @@ function Coin(props) {
     }
   }, []);
 
-  const handleClick = () => {
-    history.push("/");
+  const handleClick = async () => {
+    await setLoading(true);
+    setTimeout(() => {
+      history.push("/");
+    }, 10);
   };
 
   return (
     <div>
-      <button onClick={() => handleClick()}>{selectedCoin}</button>
+      {isLoading && <Spinner />}
+      <button onClick={handleClick}>back to Coins</button>
     </div>
   );
 }
