@@ -1,9 +1,12 @@
 import { Spin } from "antd";
 import "./Spinner.css";
 
-export const Spinner = () => (
-  <div className="loadingContainer">
-    <div className="backgroundBlur"></div>
-    <Spin tip="Fetching more Coins..." size="large" />
-  </div>
-);
+export function Spinner(props) {
+  const { tip } = props;
+  return (
+    <div className="loadingContainer">
+      <div className="backgroundBlur"></div>
+      <Spin tip={tip} size="large" />
+    </div>
+  );
+}

@@ -8,8 +8,12 @@ import { stateCoinsContext } from "./App";
 
 export default function SearchBar(props) {
   //useContext
-  const { selectedCoinC } = useContext(stateCoinsContext);
+  const { selectedCoinC, isLoadingC, searchTextC } = useContext(
+    stateCoinsContext
+  );
   const [selectedCoin, setSelectedCoin] = selectedCoinC;
+  const [isLoading, setLoading] = isLoadingC;
+  const [searchText, setSearchText] = searchTextC;
   //useState
   const [searchCoins, setCoins] = useState([]);
   const [searchOptions, setOptions] = useState([]);
@@ -27,9 +31,11 @@ export default function SearchBar(props) {
     history.push({
       pathname: "/coin/" + data,
     });
+    setSearchText('');
   };
 
   const onSearch = (searchText) => {
+    setSearchText(searchText);
     const filteredOptions = Sorter(searchCoins, searchText);
     setOptions(filteredOptions);
   };
@@ -39,9 +45,13 @@ export default function SearchBar(props) {
       {searchCoins && (
         <div>
           <AutoComplete
+            placeholder='Looking for a specific coin?'
+            value={searchText}
             options={searchOptions || []}
             onSelect={onSelect}
             onSearch={onSearch}
+            backfill={true}
+            disabled={isLoading}
             style={{ width: "200px" }}
           />
         </div>

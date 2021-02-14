@@ -6,7 +6,6 @@ import { formatPrice, formatPercentage } from "../../utils/helpers";
 import { useHistory } from "react-router-dom";
 
 import "./TableScroll.css";
-import TinyLineChart from "@ant-design/charts/es/tinyLine";
 
 export default function TableScroll() {
   const { stateCoinsC } = useContext(stateCoinsContext);
@@ -124,7 +123,7 @@ export default function TableScroll() {
       height: 60,
       render: ({ price }) => {
         // const dataMod = price.map((price) => price.toFixed(4));
-
+        // <MiniChart dataSet={price}/>
         return <TinyLine data={price} {...config} />;
         // const sparklinePrices = sparkline.price.map((price, indx) => ({
         //   day: Math.round(indx * 100 / sparkline.price.length),
@@ -146,7 +145,7 @@ export default function TableScroll() {
       pagination={false}
       columns={columns}
       dataSource={stateValues.coins}
-      rowKey="id"
+      rowKey={(record, indx) => `${record.id}${indx}`}
       sticky={true}
       scroll={{ x: "max-content" }}
     />

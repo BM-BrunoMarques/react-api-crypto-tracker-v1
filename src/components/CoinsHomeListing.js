@@ -6,7 +6,7 @@ import { Spinner } from "./loadingSpinner/Spinner";
 import { stateCoinsContext } from "./App";
 import TableScroll from "./TableScroll/TableScroll";
 
-export default function InfiniteScrollComp(props) {
+export default function CoinsHomeListing(props) {
   const {
     moreItemsC,
     numOfPagesC,
@@ -67,7 +67,9 @@ export default function InfiniteScrollComp(props) {
         overflowY: "scroll",
       }}
     >
-      {/* {isLoading && <Spinner />} */}
+      {isLoading && <Spinner tip='Fetching more coins...' />}
+
+      
       {numOfPages && (
         <InfiniteScroll
           loadMore={fetchData}
