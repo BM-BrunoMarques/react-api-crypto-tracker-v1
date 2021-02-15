@@ -4,7 +4,7 @@ import { Link, useHistory } from "react-router-dom";
 import { stateCoinsContext } from "./App";
 import { Spinner } from "./loadingSpinner/Spinner";
 
-function Coin(props) {
+export default function Coin(props) {
   const {
     selectedCoinC,
     isLoadingC,
@@ -69,5 +69,3 @@ function Coin(props) {
     </div>
   );
 }
-
-export default Coin;
