@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { Table, Avatar } from "antd";
 import { TinyLine } from "@ant-design/charts";
 import { stateCoinsContext } from "../App";
@@ -8,9 +8,16 @@ import { useHistory } from "react-router-dom";
 import "./TableScroll.css";
 
 export default function TableScroll() {
-  const { stateCoinsC } = useContext(stateCoinsContext);
+  const { stateCoinsC, isLoadingC } = useContext(stateCoinsContext);
   const [stateValues] = stateCoinsC;
+  const [isLoading, setLoading] = isLoadingC;
   const history = useHistory();
+
+  useEffect(() => {
+    setLoading({
+      load: false,
+    });
+  }, []);
 
   const config = {
     height: 60,
@@ -29,7 +36,11 @@ export default function TableScroll() {
       shadowOffsetX: 5,
       shadowOffsetY: 5,
     },
-    
+    tooltip: {
+      formatter: (data) => {
+        return data.y;
+      },
+    },
   };
 
   const columns = [
@@ -138,7 +149,13 @@ export default function TableScroll() {
       onRow={(record) => {
         return {
           onClick: () => {
-            history.push(`/coin/${record.id}`);
+            setLoading({
+              load: true,
+              tip: `Loading Coin!`,
+            });
+            setTimeout(() => {
+              history.push(`/coin/${record.id}`);
+            }, 10);
           }, // click row
         };
       }}

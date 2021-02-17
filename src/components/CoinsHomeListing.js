@@ -25,6 +25,8 @@ export default function CoinsHomeListing(props) {
   const [stateValues, setStateValues] = stateCoinsC;
   const [isLoading, setLoading] = isLoadingC;
   const [scrollPosition, setScrollPosition] = scrollPositionC;
+  //
+  const tip = ''
 
   useEffect(() => {
     if (!numOfPages) {
@@ -43,9 +45,12 @@ export default function CoinsHomeListing(props) {
   }, [selectedCoin]);
 
   const fetchData = () => {
-    if (isLoading || !moreItems) return;
+    if (isLoading.load || !moreItems || selectedCoin) return;
     //
-    setLoading(true);
+    setLoading({
+      load: true,
+      tip: 'Fetching Coins...'
+    });
     if (stateValues.page > numOfPages) {
       setMoreItems(false);
     }
@@ -72,7 +77,7 @@ export default function CoinsHomeListing(props) {
         overflowY: "scroll",
       }}
     >
-      {isLoading && <Spinner tip="Fetching more coins..." />}
+      {isLoading.load && <Spinner tip={isLoading.tip} />}
 
       {numOfPages && (
         <InfiniteScroll

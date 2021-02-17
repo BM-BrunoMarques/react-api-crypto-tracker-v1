@@ -1,7 +1,7 @@
 import "../App.css";
 import React, { useState, useRef, createContext, useEffect } from "react";
 
-import Coin from "./Coin";
+import Coin from "./Coin/Coin";
 import CoinsHomeListing from "./CoinsHomeListing";
 import SearchBar from "./SearchBar";
 
@@ -18,12 +18,17 @@ function App() {
     page: 1,
     isLoading: false,
   });
+
+  const [isLoading, setLoading] = useState({
+    load: false,
+    tip: "",
+  });
+
   // const [page, setPage] = useState(1);
 
   const [selectedCoin, setSelectedCoin] = useState("");
   const [moreItems, setMoreItems] = useState(true);
   const [numOfPages, setnumOfPages] = useState();
-  const [isLoading, setLoading] = useState(false);
   const [searchText, setSearchText] = useState("");
   const [scrollPosition, setScrollPosition] = useState("");
 
@@ -58,6 +63,7 @@ function App() {
                 xs={{ span: 24, offset: 0 }}
                 sm={{ span: 18, offset: 3 }}
                 xl={{ span: 18, offset: 3 }}
+                style={{ height: "100%", maxHeight: "70vh" }}
               >
                 <Route path="/" component={CoinsHomeListing} />
                 <Route path="/coin" component={Coin} />

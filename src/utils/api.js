@@ -1,4 +1,6 @@
+import { logDOM } from "@testing-library/react";
 import { params } from "./params.js";
+import { formatPrice } from "../utils/helpers";
 
 // export function servicePing() {
 //   return fetch("https://api.coingecko.com/api/v3/ping")
@@ -18,31 +20,57 @@ export async function getCoins(pageNum) {
   return coinReq.json();
 }
 
+export async function getSelectedCoin(coin) {
+  const coinReq = await fetch(`
+  https://api.coingecko.com/api/v3/coins/${coin}/market_chart?vs_currency=usd&days=max&interval=daily`);
+
+  const coinRes = await coinReq.json();
+  const coinList = coinRes.prices.map((data) => {
+    const dateConverted = new Date(data[0]);
+    const month = dateConverted.getMonth() + 1;
+    const day = dateConverted.getDate();
+    const year = dateConverted.getFullYear();
+
+    const price = data[1];
+
+    return { date: `${month}-${day}-${year}`, price: price };
+  });
+
+  return coinList;
+}
+
+export async function getSelectedCoinData(coin) {
+  const coinReq = await fetch(`https://api.coingecko.com/api/v3/coins/${coin}`)
+  return await coinReq.json()
+}
+
 export async function getAllCoinsList() {
-  const coinReq = await fetch("https://api.coingecko.com/api/v3/coins/list?include_platform=false");
+  const coinReq = await fetch(
+    "https://api.coingecko.com/api/v3/coins/list?include_platform=false"
+  );
   const coinRes = await coinReq.json();
 
   const coinList = coinRes.map(({ name, id }) => {
-    const coin = {value: id, label: name}
+    const coin = { value: id, label: name };
     return coin;
   });
 
-  return coinList
-  };
+  return coinList;
+}
 
-  // .then(({ name, id }) => {
-  //   test.push({ name, id });
-  //   console.log("here : ", test);
-  //   // return test.push({name, id})
-  // });
-  // .then((response) => {
-  //   // return response
-  //   let searchCoins = [];
-  //   response.map((coin) => {
-  //     searchCoins.push({ coin });
-  //   });
-  //   return searchCoins;
-  // });
+// .then(({ name, id }) => {
+//   test.push({ name, id });
+//   console.log("here : ", test);
+//   // return test.push({name, id})
+// });
+// .then((response) => {
+//   // return response
+//   let searchCoins = [];
+//   response.map((coin) => {
+//     searchCoins.push({ coin });
+//   });
+//   return searchCoins;
+// });
 // }
 
 // export const getFirstCoins = () => {

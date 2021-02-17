@@ -1,5 +1,5 @@
 export const formatPrice = (price) => {
-  const formatter = new Intl.NumberFormat("de-DE", {
+  const formatter = new Intl.NumberFormat("en-IN", {
     style: "currency",
     currency: "USD",
   });
@@ -19,7 +19,7 @@ export const formatPrice = (price) => {
     })
     .reduce((string, part) => string + part);
 
-  return currency.concat(numberString);
+  return `${currency}${numberString}`;
 };
 
 export const formatPercentage = (number) => {
