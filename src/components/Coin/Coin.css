@@ -5,7 +5,11 @@
   justify-content: flex-start;
 }
 .titleCoin {
-  margin-left: 1rem;
+  margin-left: 0.5rem;
   font-weight: 500;
   font-size: 26px;
+}
+
+.tagRow{
+  display: flex;
 }
