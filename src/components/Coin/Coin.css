@@ -10,6 +10,41 @@
   font-size: 26px;
 }
 
-.tagRow{
+/* tags*/
+.tagRow {
+  margin-bottom: 5px;
   display: flex;
+  text-align: start;
+  align-items: center;
+}
+
+.tagLegend {
+  width: 80px;
+}
+
+span.ant-tag {
+  background: #eee;
+  color: #428bca;
+  padding: 5px 5px;
+  border: none;
+}
+
+span.ant-tag a {
+  color: #428bca;
+}
+
+span.ant-tag.rank {
+  background: #343a40;
+  color: white;
+  font-weight: bold;
+}
+
+.tagRow.social span.ant-tag {
+  color: white;
+  padding: 1px 5px;
+  font-weight: bold;
+}
+
+.tagRow.social span.ant-tag a {
+  color: white;
 }
