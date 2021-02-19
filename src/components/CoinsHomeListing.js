@@ -26,7 +26,7 @@ export default function CoinsHomeListing(props) {
   const [isLoading, setLoading] = isLoadingC;
   const [scrollPosition, setScrollPosition] = scrollPositionC;
   //
-  const tip = ''
+  const tip = '';
 
   useEffect(() => {
     if (!numOfPages) {

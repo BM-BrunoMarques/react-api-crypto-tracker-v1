@@ -3,6 +3,8 @@
   display: flex;
   align-items: center;
   justify-content: flex-start;
+  margin-top: 15px;
+  margin-bottom: 20px;
 }
 .titleCoin {
   margin-left: 0.5rem;
@@ -19,14 +21,16 @@
 }
 
 .tagLegend {
-  width: 80px;
+  width: 95px;
+  display: inline-table;
 }
 
 span.ant-tag {
   background: #eee;
   color: #428bca;
-  padding: 5px 5px;
+  padding: 1px 5px;
   border: none;
+  margin-bottom: 3px;
 }
 
 span.ant-tag a {
@@ -39,12 +43,17 @@ span.ant-tag.rank {
   font-weight: bold;
 }
 
-.tagRow.social span.ant-tag {
+.tagRow.social span.ant-tag,
+.tagRow.repos span.ant-tag {
   color: white;
-  padding: 1px 5px;
   font-weight: bold;
 }
 
-.tagRow.social span.ant-tag a {
+.tagRow.social span.ant-tag a,
+.tagRow.repos span.ant-tag a {
   color: white;
+}
+
+.tagRow.social span.ant-tag.forum a {
+  color: #428bca;
 }

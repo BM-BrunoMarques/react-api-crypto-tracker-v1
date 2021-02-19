@@ -90,6 +90,12 @@ export default function Coin(props) {
             <button onClick={handleClick}>back to Coins</button>
 
             <div>
+              <Col
+      xs={{ span: 24, offset: 0 }}
+      sm={{ span: 18, offset: 3 }}
+      xl={{ span: 18, offset: 3 }}
+      style={{ height: "100%", maxHeight: "70vh" }}
+    ></Col>
               <Row align="start" style={{ padding: "15px" }}>
                 <Col span={24}>
                   <Col span={12}>
@@ -120,13 +126,13 @@ export default function Coin(props) {
                     }
                   </Col>
                 </Col>
-                <Col span={24}>
-                  <Col span={14}>
+                <Col span={22} offset={1}>
+                  <Col span={13}>
                     <div className="tagsContainer">
-                      <TagLinks coinData={coinData}/>
+                      <TagLinks coinData={coinData} />
                     </div>
                   </Col>
-                  <Col span={10}>
+                  <Col span={11}>
                     info
                     {
                       // market_data: (.market_data)
@@ -145,12 +151,13 @@ export default function Coin(props) {
                     }
                   </Col>
                 </Col>
-                <Col span={24}>
+                <Col span={23} >
                   <Col span={14}>
                     <CoinChart />
                   </Col>
-                  <Col span={10}>table
-                  {/* TABLE
+                  <Col span={10}>
+                    table
+                    {/* TABLE
                   BTC Price	$52,170.13
                       Market Cap	$972,022,418,270
                       Market Cap Dominance	60.02%
