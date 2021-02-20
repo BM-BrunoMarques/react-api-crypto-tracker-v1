@@ -1,6 +1,6 @@
 import "../../App.css";
 import "./Coin.css";
-import React, { useEffect, useContext, useState } from "react";
+import React, { useEffect, useContext, useState, useRef } from "react";
 import { useHistory } from "react-router-dom";
 import { stateCoinsContext } from "../App";
 import { Spinner } from "../loadingSpinner/Spinner";
@@ -9,6 +9,7 @@ import { getSelectedCoinData } from "../../utils/api";
 import parse from "html-react-parser";
 import TagLinks from "./TagLinks";
 import CoinChart from "./CoinChart";
+import CoinDataTable from "./CoinDataTable";
 
 export default function Coin(props) {
   const {
@@ -23,15 +24,15 @@ export default function Coin(props) {
   const [searchText, setSearchText] = searchTextC;
   const [scrollPosition, setScrollPosition] = scrollPositionC;
 
+  const [tagsHeight, setTagsHeight] = useState(0);
   const [coinData, setcoinData] = useState();
-
   const history = useHistory();
+  const tagsDivRef = useRef(null);
 
   const { coinId } = props.history.location;
 
   let urlSlice = "";
-
-  useEffect(async () => {
+  useEffect(() => {
     urlSlice = props.location.pathname.split("/").pop();
     if (!selectedCoin || selectedCoin !== urlSlice) {
       if (urlSlice !== "/coin") {
@@ -68,9 +69,13 @@ export default function Coin(props) {
     //
   };
 
+  const setTagsDivHeight = () => {
+    setTagsHeight(tagsDivRef.current.scrollHeight);
+  };
   console.log(coinData);
   return (
-    <div
+    <Col
+      span={24}
       style={{
         backgroundColor: "white",
         width: "100%",
@@ -84,103 +89,72 @@ export default function Coin(props) {
       }}
     >
       {coinData && (
-        <div>
+        <Row>
           {isLoading.load && <Spinner tip={isLoading.tip} />}
-          <div>
-            <button onClick={handleClick}>back to Coins</button>
 
-            <div>
-              <Col
-      xs={{ span: 24, offset: 0 }}
-      sm={{ span: 18, offset: 3 }}
-      xl={{ span: 18, offset: 3 }}
-      style={{ height: "100%", maxHeight: "70vh" }}
-    ></Col>
-              <Row align="start" style={{ padding: "15px" }}>
-                <Col span={24}>
-                  <Col span={12}>
-                    <div className="header">
-                      <Avatar
-                        size={{
-                          xs: 40,
-                          sm: 40,
-                          md: 40,
-                          lg: 64,
-                          xl: 80,
-                          xxl: 80,
-                        }}
-                        src={coinData.image?.large}
-                      />
+          <button onClick={handleClick}>back to Coins</button>
 
-                      <h2 className="titleCoin">
-                        {coinData.name}{" "}
-                        <i>({coinData.symbol?.toUpperCase()})</i>
-                      </h2>
-                    </div>
-                  </Col>
-                  <Col span={12}>
-                    {
-                      // Right side
-                      // current price is = .current_price.usd
-                      // .price_change_percentage_24h_in_currency.usd
-                    }
-                  </Col>
-                </Col>
-                <Col span={22} offset={1}>
-                  <Col span={13}>
-                    <div className="tagsContainer">
-                      <TagLinks coinData={coinData} />
-                    </div>
-                  </Col>
-                  <Col span={11}>
-                    info
-                    {
-                      // market_data: (.market_data)
-                      // Market Cap = .market_cap.usd
-                      // $977,600,515,590
-                      // 24 Hour Trading Vol =  .total_volume
-                      // $68,907,457,854
-                      // 24h Low / 24h High = .high_24h / .low_24h
-                      // $49,029.70 / $52,547.80
-                      // Circulating Supply = .circulating_supply / .max_supply
-                      // 18,631,568 / 21,000,000
-                      // Fully Diluted Valuation = .fully_diluted_valuation
-                      // $1,101,872,415,000
-                      // Max Supply = .max_supply
-                      // 21,000,000
-                    }
-                  </Col>
-                </Col>
-                <Col span={23} >
-                  <Col span={14}>
-                    <CoinChart />
-                  </Col>
-                  <Col span={10}>
-                    table
-                    {/* TABLE
-                  BTC Price	$52,170.13
-                      Market Cap	$972,022,418,270
-                      Market Cap Dominance	60.02%
-                      Trading Volume	$67,427,596,400
-                      Volume / Market Cap	0.0694
-                      24h Low / 24h High	$49,364.64 / $52,547.80
-                      7d Low / 7d High	$46,941.29 / $52,143.68
-                      Market Cap Rank	#1
-                      All-Time High	$52,547.80 -0.7%
-                      Feb 17, 2021 (about 8 hours)
-                      All-Time Low	$67.81 76815.4%
-                  */}
-                  </Col>
-                </Col>
+          {/* <Col
+            xs={{ span: 24, offset: 0 }}
+            sm={{ span: 18, offset: 3 }}
+            xl={{ span: 18, offset: 3 }}
+            style={{ height: "100%", maxHeight: "70vh" }}
+          ></Col> */}
+          <Col span={24}>
+            <Row justify="start">
+              <Col className="header" span={12}>
+                <Avatar
+                  size={{
+                    xs: 40,
+                    sm: 40,
+                    md: 40,
+                    lg: 64,
+                    xl: 80,
+                    xxl: 80,
+                  }}
+                  src={coinData.image?.large}
+                />
 
-                <Col xs={{ span: 24, offset: 0 }} xl={{ span: 10, offset: 0 }}>
-                  {parse(`${coinData.description?.en}`)}
-                </Col>
-              </Row>
-            </div>
-          </div>
-        </div>
+                <h2 className="titleCoin">
+                  {coinData.name} <i>({coinData.symbol?.toUpperCase()})</i>
+                </h2>
+              </Col>
+              <Col span={10} offset={2}>
+                <p>current price</p>
+                <p>price change percent</p>
+              </Col>
+            </Row>
+          </Col>
+          <Col span={22} offset={1}>
+            <Row justify="start">
+              <Col xs={{ span: 24 }} sm={{ span: 13 }}>
+                <div
+                  className="tagsContainer"
+                  style={{ height: "fit-content" }}
+                  ref={tagsDivRef}
+                >
+                  <TagLinks coinData={coinData} setHeight={setTagsDivHeight} />
+                </div>
+              </Col>
+
+              <Col xs={{ span: 24 }} sm={{ span: 10, offset: 1}}>
+                <CoinDataTable coinData={coinData} tagsHeight={tagsHeight} />
+              </Col>
+
+              <Col  xs={{ span: 24 }} sm={{ span: 12}}>
+                <CoinChart />
+              </Col>
+            </Row>
+          </Col>
+          <Col span={22} offset={1}>
+            <Col span={10}></Col>
+          </Col>
+
+          <Col xs={{ span: 24, offset: 0 }} xl={{ span: 10, offset: 0 }}>
+            {parse(`${coinData.description?.en}`)}
+          </Col>
+        </Row>
       )}
-    </div>
+    </Col>
   );
 }

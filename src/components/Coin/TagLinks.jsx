@@ -1,6 +1,6 @@
 import "../../App.css";
 import "./Coin.css";
-import React from "react";
+import React, { useEffect } from "react";
 import { Tag } from "antd";
 import {
   TwitterOutlined,
@@ -9,23 +9,18 @@ import {
   SendOutlined,
   CodeSandboxOutlined,
   GithubOutlined,
+  LinkOutlined,
 } from "@ant-design/icons";
 import { colors } from "../../utils/const";
-import { attachTypeApi } from "antd/lib/message";
-
-// TAGS.
-// Rank      = .coingecko_rank
-// Website   = links.homepage
-// Explorers = links.blockchain_site[]
-// Community = links.subreddit_url + links.twitter_screen_name +
-//             links.facebook_username + links.official_forum_url
-// Source Code = links.repos_url[bitbucket github]
 
 export default function TagLinks(props) {
-  const { coinData } = props;
-  const { facebook, reddit, twitter, telegram, repos } = colors;
+  useEffect(() => {
+    setHeight();
+  }, []);
+  const { coinData, setHeight } = props;
+  const { facebook, reddit, twitter, telegram, repos, blueGray } = colors;
 
-  const renderItemLink = (item) => {
+  const renderItemLink = (item, color, icon) => {
     let url, itemName;
     if (item.length) {
       url = new URL(item);
@@ -34,7 +29,7 @@ export default function TagLinks(props) {
       itemName = itemSplit[Math.floor((itemSplit.length - 1) / 2)];
     }
     return item.length ? (
-      <Tag>
+      <Tag icon={icon} color={color}>
         <a href={item}>{itemName}</a>
       </Tag>
     ) : null;
@@ -50,10 +45,8 @@ export default function TagLinks(props) {
           coinData.links.telegram_channel_identifier?.length ||
           coinData.links.official_forum_url[0]
         ) {
-          console.log(true);
           return true;
         } else {
-          console.log(false);
           return false;
         }
         break;
@@ -62,9 +55,9 @@ export default function TagLinks(props) {
   };
 
   return (
-    <div className="tagLinks">
+    <div>
       {coinData && (
-        <div>
+        <div className="tagLinks">
           {coinData.coingecko_rank && (
             <div className="tagRow">
               <div className="tagLegend">Rank</div>
@@ -73,7 +66,7 @@ export default function TagLinks(props) {
               </div>
             </div>
           )}
-          {coinData.links.homepage && (
+          {coinData.links.homepage[0] && (
             <div className="tagRow">
               <div className="tagLegend">Website</div>
               <div className="tagsContainer">
@@ -82,7 +75,7 @@ export default function TagLinks(props) {
             </div>
           )}
 
-          {coinData.links.blockchain_site && (
+          {coinData.links.blockchain_site[0] && (
             <div className="tagRow">
               <div className="tagLegend">Explorers</div>
               <div className="tagsContainer">
@@ -129,24 +122,32 @@ export default function TagLinks(props) {
                     </a>
                   </Tag>
                 )}
-                {coinData.links.official_forum_url &&
-                  coinData.links.official_forum_url.map((item) => {
-                    if (!item.length) return;
-                    return (
-                      <Tag className="forum" color="default">
-                        <a href={item}>Forum</a>
-                      </Tag>
-                    );
-                  })}
+                {
+                  coinData.links.official_forum_url &&
+                    coinData.links.homepage.map((item) =>
+                      renderItemLink(item, blueGray, <LinkOutlined />)
+                    )
+
+                  // coinData.links.official_forum_url.map((item) => {
+                  //   if (!item.length) return;
+                  //   return (
+                  //     <Tag className="forum" color="default">
+                  //       <a href={item}>Forum</a>
+                  //     </Tag>
+                  //   );
+                  // }
+                }
               </div>
             </div>
           )}
 
-          {coinData.links.repos_url.length && (
+          {(coinData.links.repos_url.github[0] ||
+            coinData.links.repos_url.bitbucket[0]) && (
             <div className="tagRow repos">
-              <div className="tagLegend">Source Code</div>
+              <div className="tagLegend">
+                <span>Source Code</span>
+              </div>
               <div className="tagsContainer">
-                {console.log("repos ", coinData.links.repos_url)}
                 {coinData.links.repos_url.github.map((item, indx) => {
                   if (!item.length) return;
 
@@ -160,17 +161,18 @@ export default function TagLinks(props) {
                     </Tag>
                   );
                 })}
-
                 {coinData.links.repos_url.bitbucket.map((item) => {
                   if (!item.length) return;
-                  console.log(" logs ", item, item.length);
-                  <Tag
-                    icon={<CodeSandboxOutlined />}
-                    className="forum"
-                    color={repos}
-                  >
-                    <a href={item}>Forum</a>
-                  </Tag>;
+
+                  return (
+                    <Tag
+                      icon={<CodeSandboxOutlined />}
+                      className="forum"
+                      color={repos}
+                    >
+                      <a href={item}>Bitbucket</a>
+                    </Tag>
+                  );
                 })}
               </div>
             </div>

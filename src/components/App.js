@@ -63,6 +63,7 @@ function App() {
                 xs={{ span: 24, offset: 0 }}
                 sm={{ span: 18, offset: 3 }}
                 xl={{ span: 18, offset: 3 }}
+                xxl={{ span: 15, offset: 5 }}
                 style={{ height: "100%", maxHeight: "70vh" }}
               >
                 <Route path="/" component={CoinsHomeListing} />

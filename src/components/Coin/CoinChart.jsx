@@ -49,7 +49,7 @@ export default function CoinChart(props) {
     <Line
       data={coinChartData}
       {...config}
-      style={{ maxHeight: "300px", padding: "15px 10px" }}
+      style={{ padding: "15px 0", maxHeight: '300px', marginTop: '20px' }}
     />
   );
 }
