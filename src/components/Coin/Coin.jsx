@@ -27,7 +27,6 @@ export default function Coin(props) {
   const [tagsHeight, setTagsHeight] = useState(0);
   const [coinData, setcoinData] = useState();
   const history = useHistory();
-  const tagsDivRef = useRef(null);
 
   const { coinId } = props.history.location;
 
@@ -69,9 +68,6 @@ export default function Coin(props) {
     //
   };
 
-  const setTagsDivHeight = () => {
-    setTagsHeight(tagsDivRef.current.scrollHeight);
-  };
   console.log(coinData);
   return (
     <Col
@@ -94,13 +90,12 @@ export default function Coin(props) {
 
           <button onClick={handleClick}>back to Coins</button>
 
-          {/* <Col
-            xs={{ span: 24, offset: 0 }}
-            sm={{ span: 18, offset: 3 }}
-            xl={{ span: 18, offset: 3 }}
-            style={{ height: "100%", maxHeight: "70vh" }}
-          ></Col> */}
-          <Col span={24}>
+          <Col
+            xs={{ span: 24 }}
+            sm={{ span: 24 }}
+            lg={{ span: 22, offset: 1 }}
+            xl={{ span: 22, offset: 1 }}
+          >
             <Row justify="start">
               <Col className="header" span={12}>
                 <Avatar
@@ -126,28 +121,39 @@ export default function Coin(props) {
             </Row>
           </Col>
           <Col span={22} offset={1}>
-            <Row justify="start">
-              <Col xs={{ span: 24 }} sm={{ span: 13 }}>
-                <div
-                  className="tagsContainer"
-                  style={{ height: "fit-content" }}
-                  ref={tagsDivRef}
-                >
-                  <TagLinks coinData={coinData} setHeight={setTagsDivHeight} />
-                </div>
+            <Row justify="start" alignItems="center">
+              <Col className="leftSide" xs={{ span: 24 }} sm={{ span: 13 }}>
+                <TagLinks coinData={coinData} />
               </Col>
 
-              <Col xs={{ span: 24 }} sm={{ span: 10, offset: 1}}>
+              <Col
+                className="rightSide"
+                xs={{ span: 24 }}
+                sm={{ span: 9, offset: 1 }}
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                }}
+              >
                 <CoinDataTable coinData={coinData} tagsHeight={tagsHeight} />
               </Col>
-
-              <Col  xs={{ span: 24 }} sm={{ span: 12}}>
+            </Row>
+            <Row justify="start" alignItems="center">
+              <Col
+                xs={{ span: 24 }}
+                sm={{ span: 18, offset: 2 }}
+                md={{ span: 12, offset: 0 }}
+              >
                 <CoinChart />
               </Col>
+              <Col
+                xs={{ span: 24 }}
+                sm={{ span: 18, offset: 2 }}
+                md={{ span: 12, offset: 0  }}
+              >
+                TEXT
+              </Col>
             </Row>
-          </Col>
-          <Col span={22} offset={1}>
-            <Col span={10}></Col>
           </Col>
 
           <Col xs={{ span: 24, offset: 0 }} xl={{ span: 10, offset: 0 }}>

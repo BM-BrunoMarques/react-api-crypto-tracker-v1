@@ -17,15 +17,29 @@
 .tagRow {
   margin-bottom: 5px;
   display: flex;
-  text-align: start;
-  align-items: center;
+}
+.tagsContainer {
+  display: flex;
+  flex-wrap: wrap;
+}
+.leftSide {
+  display: flex;
+  justify-content: center;
 }
 
 .tagLegend {
-  width: 68px;
   display: inline-table;
   font-weight: 500;
   font-size: 11px;
+  font-weight: bold;
+  margin-right: 2%;
+}
+.leftSide .tagLegend {
+  width: 68px;
+}
+
+.rightSide .tagRow {
+  flex-direction: column;
 }
 
 span.ant-tag {
@@ -68,23 +82,28 @@ span.ant-tag span {
 /*mobile*/
 
 @media only screen and (max-width: 575px) {
-  .tagRow {
-    display: grid;
-  }
   .tagLinks {
     display: flex;
-    flex-direction: row;
-    align-items: start;
+    overflow-x: auto;
+  }
+  .tagLinks .tagRow {
+    display: grid;
+    justify-content: space-evenly;
+    margin-right: 6px;
   }
 
-  .tagRow.social {
-    max-width: 90px;
+  .tagLinks .tagsContainer {
+    display: flex;
+    flex-wrap: nowrap;
   }
 
-  .tagLegend {
+  .tagLinks .tagLegend {
     width: fit-content;
   }
-  .coinTableContainer{
-    height:fit-content!important;
+  .coinTableContainer {
+    height: fit-content !important;
+  }
+  .rightSide {
+    flex-direction: column;
   }
 }
