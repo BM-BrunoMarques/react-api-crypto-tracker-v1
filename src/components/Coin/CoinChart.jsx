@@ -45,7 +45,6 @@ export default function CoinChart(props) {
     },
     smooth: true,
 
-
     meta: {
       price: {
         formatter: (price) => {
@@ -56,10 +55,12 @@ export default function CoinChart(props) {
   };
 
   const changeInterval = (e) => {
+    console.log(e.target.value);
     if (lastInterval === e.target.value) {
+      console.log("returned", lastInterval, " e : ", e.target.value);
       return;
     }
-    const chartInterval = +e.target.value
+    const chartInterval = Number(e.target.value)
       ? +e.target.value
       : interval.max.value;
 
@@ -72,15 +73,27 @@ export default function CoinChart(props) {
 
   const renderButtons = () =>
     Object.values(interval).map((obj) => (
-      <button value={obj.value} onClick={(e) => changeInterval(e)}>
+      <button
+        className="ant-btn"
+        value={obj.value}
+        onClick={(e) => changeInterval(e)}
+      >
         {obj.label}
       </button>
     ));
 
   return (
     <div style={{ marginTop: "20px" }}>
-      <div className="navigation">{renderButtons()}</div>
-      <Line data={coinChartData} {...config} style={{ marginTop: "15px" }} />
+      {coinChartData && (
+        <div>
+          <div className="navigation">{renderButtons()}</div>
+          <Line
+            data={coinChartData}
+            {...config}
+            style={{ marginTop: "15px" }}
+          />
+        </div>
+      )}
     </div>
   );
 }
