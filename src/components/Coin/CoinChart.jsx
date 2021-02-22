@@ -5,17 +5,24 @@ import { stateCoinsContext } from "../App";
 import { Line } from "@ant-design/charts";
 import { getSelectedCoin } from "../../utils/api";
 import { formatPrice } from "../../utils/helpers";
+import { interval } from "../../utils/const";
 
 export default function CoinChart(props) {
   const { selectedCoinC } = useContext(stateCoinsContext);
 
   const [selectedCoin, setSelectedCoin] = selectedCoinC;
   const [coinChartData, setChartData] = useState([]);
+  const [lastInterval, setLastInterval] = useState();
 
-  useEffect(async () => {
+  useEffect(() => {
     if (selectedCoin) {
-      const coinChartInfo = await getSelectedCoin(selectedCoin);
-      setChartData(coinChartInfo);
+      (async function () {
+        const coinChartInfo = await getSelectedCoin(
+          selectedCoin,
+          interval.day.value
+        );
+        setChartData(coinChartInfo);
+      })();
     }
   }, [selectedCoin]);
 
@@ -25,17 +32,20 @@ export default function CoinChart(props) {
     xField: "date",
     yField: "price",
     label: false,
-    tooltip: { showMarkers: false },
+    tooltip: { showMarkers: true },
     lineStyle: {
       stroke: "orange",
-      lineWidth: 1,
-      lineDash: [1, 1],
+      lineWidth: 2,
+      lineDash: [1, 2],
       strokeOpacity: 1,
-      shadowColor: "black",
+      shadowColor: "orange",
       shadowBlur: 10,
       shadowOffsetX: 5,
       shadowOffsetY: 5,
     },
+    smooth: true,
+
+
     meta: {
       price: {
         formatter: (price) => {
@@ -45,11 +55,32 @@ export default function CoinChart(props) {
     },
   };
 
+  const changeInterval = (e) => {
+    if (lastInterval === e.target.value) {
+      return;
+    }
+    const chartInterval = +e.target.value
+      ? +e.target.value
+      : interval.max.value;
+
+    (async function () {
+      const coinChartInfo = await getSelectedCoin(selectedCoin, chartInterval);
+      setChartData(coinChartInfo);
+      setLastInterval(e.target.value);
+    })();
+  };
+
+  const renderButtons = () =>
+    Object.values(interval).map((obj) => (
+      <button value={obj.value} onClick={(e) => changeInterval(e)}>
+        {obj.label}
+      </button>
+    ));
+
   return (
-    <Line
-      data={coinChartData}
-      {...config}
-      style={{ padding: "15px 0", maxHeight: '300px', marginTop: '20px' }}
-    />
+    <div style={{ marginTop: "20px" }}>
+      <div className="navigation">{renderButtons()}</div>
+      <Line data={coinChartData} {...config} style={{ marginTop: "15px" }} />
+    </div>
   );
 }

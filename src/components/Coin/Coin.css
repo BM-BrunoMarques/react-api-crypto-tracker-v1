@@ -1,3 +1,15 @@
+.coinStage {
+  background-color: white;
+  width: 100%;
+  height: 100%;
+  max-height: 70vh;
+  top: 0;
+  left: 0;
+  position: absolute;
+  z-index: 3;
+  overflow-y: scroll;
+}
+
 .header {
   text-align: left;
   display: flex;
@@ -5,7 +17,6 @@
   justify-content: flex-start;
   margin-top: 15px;
   margin-bottom: 20px;
-  padding: 0 14px;
 }
 .titleCoin {
   margin-left: 0.5rem;
@@ -79,6 +90,38 @@ span.ant-tag span {
   color: #428bca;
 }
 
+.headerLeft {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.headerRight {
+  display: flex;
+  align-items: baseline;
+}
+
+.headerRight .percent {
+  font-size: 20px;
+  margin-left: 14px;
+}
+.currentPrice {
+  font-size: 27px;
+}
+.topRightInfo {
+  padding-left: 7px;
+}
+
+/*charts*/
+
+.navigation {
+  display: flex;
+  justify-content: flex-end;
+}
+.navigation button {
+  margin-left: 3px;
+}
+
 /*mobile*/
 
 @media only screen and (max-width: 575px) {
@@ -101,9 +144,14 @@ span.ant-tag span {
     width: fit-content;
   }
   .coinTableContainer {
-    height: fit-content !important;
+    margin-top: 20px;
   }
   .rightSide {
     flex-direction: column;
+  }
+  .topRightInfo {
+    display: grid;
+    justify-content: center;
+    align-content: space-around;
   }
 }

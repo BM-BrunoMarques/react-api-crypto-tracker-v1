@@ -115,21 +115,10 @@ export default function TagLinks(props) {
                 </a>
               </Tag>
             )}
-            {
-              coinData.links.official_forum_url &&
-                coinData.links.homepage.map((item) =>
-                  renderItemLink(item, blueGray, <LinkOutlined />)
-                )
-
-              // coinData.links.official_forum_url.map((item) => {
-              //   if (!item.length) return;
-              //   return (
-              //     <Tag className="forum" color="default">
-              //       <a href={item}>Forum</a>
-              //     </Tag>
-              //   );
-              // }
-            }
+            {coinData.links.official_forum_url &&
+              coinData.links.homepage.map((item) =>
+                renderItemLink(item, blueGray, <LinkOutlined />)
+              )}
           </div>
         </div>
       )}
