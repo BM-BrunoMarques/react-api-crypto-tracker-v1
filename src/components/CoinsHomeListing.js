@@ -26,7 +26,7 @@ export default function CoinsHomeListing(props) {
   const [isLoading, setLoading] = isLoadingC;
   const [scrollPosition, setScrollPosition] = scrollPositionC;
   //
-  const tip = '';
+  const tip = "";
 
   useEffect(() => {
     if (!numOfPages) {
@@ -49,7 +49,7 @@ export default function CoinsHomeListing(props) {
     //
     setLoading({
       load: true,
-      tip: 'Fetching Coins...'
+      tip: "Fetching Coins...",
     });
     if (stateValues.page > numOfPages) {
       setMoreItems(false);
@@ -69,14 +69,7 @@ export default function CoinsHomeListing(props) {
     });
   };
   return (
-    <div
-      ref={scrollParentRef}
-      style={{
-        minHeight: "500px",
-        maxHeight: "70vh",
-        overflowY: "scroll",
-      }}
-    >
+    <div className="CoinsListingContainer" ref={scrollParentRef}>
       {isLoading.load && <Spinner tip={isLoading.tip} />}
 
       {numOfPages && (
@@ -87,7 +80,6 @@ export default function CoinsHomeListing(props) {
           useWindow={false}
         >
           <TableScroll />
-          {/* <CurrencyCard coins={stateValues.coins} /> */}
           {!moreItems && (
             <p style={{ textAlign: "center" }}>
               <b>You have seen it all...</b>

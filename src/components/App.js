@@ -1,5 +1,5 @@
 import "../App.css";
-import React, { useState, useRef, createContext, useEffect } from "react";
+import React, { useState, useRef, createContext } from "react";
 
 import Coin from "./Coin/Coin";
 import CoinsHomeListing from "./CoinsHomeListing";
@@ -60,17 +60,18 @@ function App() {
           <Content>
             <Row style={{ height: "100%" }} align="middle">
               <Col
+                className="mainContent"
                 xs={{ span: 24, offset: 0 }}
                 sm={{ span: 18, offset: 3 }}
                 xl={{ span: 18, offset: 3 }}
                 xxl={{ span: 15, offset: 5 }}
-                style={{ height: "100%", maxHeight: "70vh" }}
               >
                 <Route path="/" component={CoinsHomeListing} />
                 <Route path="/coin" component={Coin} />
               </Col>
             </Row>
           </Content>
+          <Footer>Bruno Website / GITHUB</Footer>
         </BrowserRouter>
       </stateCoinsContext.Provider>
     </Layout>

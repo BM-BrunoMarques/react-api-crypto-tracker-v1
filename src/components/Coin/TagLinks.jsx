@@ -26,7 +26,7 @@ export default function TagLinks(props) {
       itemName = itemSplit[Math.floor((itemSplit.length - 1) / 2)];
     }
     return item.length ? (
-      <Tag icon={icon} color={color}>
+      <Tag key={url} icon={icon} color={color}>
         <a href={item}>{itemName}</a>
       </Tag>
     ) : null;

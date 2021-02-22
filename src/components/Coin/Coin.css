@@ -125,6 +125,9 @@ span.ant-tag span {
 /*mobile*/
 
 @media only screen and (max-width: 575px) {
+  .coinStage {
+    max-height: 100%;
+  }
   .tagLinks {
     display: flex;
     overflow-x: auto;

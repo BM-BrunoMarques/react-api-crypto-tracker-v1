@@ -74,6 +74,7 @@ export default function CoinChart(props) {
   const renderButtons = () =>
     Object.values(interval).map((obj) => (
       <button
+        key={obj.label}
         className="ant-btn"
         value={obj.value}
         onClick={(e) => changeInterval(e)}
