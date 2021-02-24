@@ -78,12 +78,6 @@ export default function Coin(props) {
       setSearchText("");
       setSelectedCoin("");
     })();
-
-    //CHANGE
-    // setTimeout(() => {
-
-    // }, 10);
-    //
   };
 
   return (
