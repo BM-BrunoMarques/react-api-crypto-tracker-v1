@@ -1,4 +1,7 @@
+import { months } from "./const";
+
 export const formatPrice = (price) => {
+  console.log("formatPrice", price);
   if (!Number(price)) {
     return "?";
   }
@@ -36,9 +39,86 @@ export const formatNumber = (number) => {
   return new Intl.NumberFormat().format(number);
 };
 
-export const formatPercentage = (number) => {
-  if (!Number(number)) {
+export const formatPercentage = (data) => {
+  if (!Number(data)) {
     return "?";
   }
-  return parseFloat(number).toFixed(1).concat("%");
+
+  return parseFloat(data).toFixed(1).concat("%");
+};
+
+export const formatDate = (data) => {
+  const dateConverted = new Date(data[0]);
+
+  const month = dateConverted.getMonth() + 1;
+  const day = dateConverted.getDate();
+  const year = dateConverted.getFullYear();
+  const hour = dateConverted.getHours();
+  const minute = dateConverted.getMinutes();
+
+  return { month, day, year, hour, minute };
+};
+
+export const renderInfo = (data, label, convertData) => {
+  if (
+    (typeof data === "object" && !Number(data[0])) ||
+    (typeof data !== "object" && !Number(data))
+  ) {
+    return;
+  }
+
+  return (
+    <div className="tagRow">
+      <div className="tagLegend">{label}</div>
+      {typeof data === "object" ? (
+        <div className="info">
+          {convertData(data[0])} / {convertData(data[1])}
+        </div>
+      ) : (
+        <div className="info">{convertData(data)}</div>
+      )}
+    </div>
+  );
+};
+
+export const renderBottomInfo = ({ data, label, type, addClass }) => {
+  const addClassCategory = (data) => {
+    const classes = [];
+    classes.push(data.includes("-") ? "negative " : "");
+    classes.push(data.includes("%") ? "percent " : "");
+    classes.push(data.includes("$") ? "currency " : "");
+
+    return classes.join("").toString();
+  };
+
+  const convertedData = [];
+  const multiple = typeof data === "object" ? true : false;
+
+  if (multiple) {
+    data.map((data, indx) => {
+      let converted;
+      if (type[indx] === formatDate) {
+        const { month, day, year } = type[indx](data);
+        converted = `${day} ${months[month - 1]} ${year}`;
+      } else {
+        converted = type[indx](data);
+      }
+      convertedData.push(converted);
+      console.log("converted", converted);
+    });
+  } else {
+    convertedData.push(type(data));
+  }
+
+  return (
+    <div className="tagRow">
+      <div className="tagLegend">{label}</div>
+      <div className={`info ${addClass}`}>
+        {convertedData.map((data) => (
+          <span className={`${addClassCategory(data)}`}>{data}</span>
+        ))}
+      </div>
+    </div>
+  );
+
 };

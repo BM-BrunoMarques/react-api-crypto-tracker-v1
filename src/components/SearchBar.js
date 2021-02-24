@@ -51,7 +51,6 @@ export default function SearchBar(props) {
             onSelect={onSelect}
             onSearch={onSearch}
             backfill={true}
-            disabled={isLoading}
             style={{ width: "200px" }}
           />
         </div>

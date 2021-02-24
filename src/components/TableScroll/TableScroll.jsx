@@ -4,10 +4,12 @@ import { TinyLine } from "@ant-design/charts";
 import { stateCoinsContext } from "../App";
 import { formatPrice, formatPercentage } from "../../utils/helpers";
 import { useHistory } from "react-router-dom";
+import { Row as AntdRow, Col as AntdCol } from "antd";
+import { StickyTable, Row, Cell } from "react-sticky-table";
 
 import "./TableScroll.css";
 
-export default function TableScroll() {
+export default function TableScroll(props) {
   const { stateCoinsC, isLoadingC } = useContext(stateCoinsContext);
   const [stateValues] = stateCoinsC;
   const [isLoading, setLoading] = isLoadingC;
@@ -43,128 +45,183 @@ export default function TableScroll() {
     },
   };
 
-  const columns = [
-    {
+  const columns = {
+    coin: {
       title: "Coin",
-      dataIndex: ["image", "name"],
-      key: "coin",
-      fixed: "left",
-      width: 80,
-      align: "center",
-      render: (empty, record) => {
-        return {
-          children: (
-            <div style={{ display: "flex" }}>
-              <Avatar size="normal" src={record.image} />
-              <span className="title">{record.name}</span>
-              <div
-                style={{ position: " absolute", top: "-35px" }}
-                id={record.id}
-              ></div>
-            </div>
-          ),
-        };
+      key: ["image", "name"],
+      render: (record) => {
+        const id = "coin";
+        const key = columns[id].key;
+        return (
+          <div style={{ display: "flex", maxWidth: "130px" }}>
+            <Avatar size="normal" src={record[key[0]]} />
+            <span className="title">{record[key[1]]}</span>
+            <div
+              style={{ position: " absolute", top: "-35px" }}
+              id={record.id}
+            ></div>
+          </div>
+        );
       },
     },
-    {
-      dataIndex: "symbol",
+    symbol: {
+      title: "",
       key: "symbol",
-      width: 20,
-      align: "center",
-      render: (data) => {
-        return {
-          children: <span className="symbol">{data.toUpperCase()}</span>,
-        };
+      render: (record) => {
+        const id = "symbol";
+        const key = columns[id].key;
+        return (
+          <span style={{ maxWidth: "80px", display: "inline-block" }}>
+            {record[key].toUpperCase()}
+          </span>
+        );
       },
     },
-    {
+    current_price: {
       title: "Price",
-      dataIndex: "current_price",
       key: "current_price",
-      width: 80,
-      align: "center",
-      render: (price) => {
-        return {
-          children: <span>{formatPrice(price)}</span>,
-        };
+      render: (record) => {
+        const id = "current_price";
+        const key = columns[id].key;
+        return <span>{formatPrice(record[key])}</span>;
       },
     },
-    {
+    price_change_percentage_1h_in_currency: {
       title: "1h",
-      dataIndex: "price_change_percentage_1h_in_currency",
       key: "price_change_percentage_1h_in_currency",
-      width: 30,
-      align: "center",
-      render: (percent) => (
-        <span className={`percent ${percent > 0 ? "positive" : "negative"}`}>
-          {formatPercentage(percent)}
-        </span>
-      ),
-    },
-    {
-      title: "24h",
-      dataIndex: "price_change_percentage_24h_in_currency",
-      key: "price_change_percentage_24h_in_currency",
-      width: 30,
-      align: "center",
-      render: (percent) => (
-        <span className={`percent ${percent > 0 ? "positive" : "negative"}`}>
-          {formatPercentage(percent)}
-        </span>
-      ),
-    },
-    {
-      title: "7d",
-      dataIndex: "price_change_percentage_7d_in_currency",
-      key: "price_change_percentage_7d_in_currency",
-      width: 30,
-      align: "center",
-      render: (percent) => (
-        <span className={`percent ${percent > 0 ? "positive" : "negative"}`}>
-          {formatPercentage(percent)}
-        </span>
-      ),
-    },
-    {
-      title: "Last 7 Days",
-      dataIndex: "sparkline_in_7d",
-      key: "sparkline_in_7d",
-      align: "center",
-      width: 100,
-      height: 60,
-      render: ({ price }) => {
-        // const dataMod = price.map((price) => price.toFixed(4));
-        // <MiniChart dataSet={price}/>
-        return <TinyLine data={price} {...config} />;
-        // const sparklinePrices = sparkline.price.map((price, indx) => ({
-        //   day: Math.round(indx * 100 / sparkline.price.length),
-        //   value: Math.ceil(price),
-        // }));
-        // return <Line data={sparklinePrices} {...config} />;
+      render: (record) => {
+        const id = "price_change_percentage_1h_in_currency";
+        const key = columns[id].key;
+        return (
+          <span
+            className={`percent ${record[key] > 0 ? "positive" : "negative"}`}
+          >
+            {formatPercentage(record[key])}
+          </span>
+        );
       },
     },
-  ];
-  return (
-    <Table
-      onRow={(record) => {
-        return {
-          onClick: () => {
-            setLoading({
-              load: true,
-              tip: `Loading Coin!`,
-            });
-            setTimeout(() => {
-              history.push(`/coin/${record.id}`);
-            }, 10);
-          }, // click row
-        };
+    price_change_percentage_24h_in_currency: {
+      title: "24h",
+      key: "price_change_percentage_24h_in_currency",
+      render: (record) => {
+        const id = "price_change_percentage_24h_in_currency";
+        const key = columns[id].key;
+        return (
+          <span
+            className={`percent ${record[key] > 0 ? "positive" : "negative"}`}
+          >
+            {formatPercentage(record[key])}
+          </span>
+        );
+      },
+    },
+    price_change_percentage_7d_in_currency: {
+      title: "7d",
+      key: "price_change_percentage_7d_in_currency",
+      render: (record) => {
+        const id = "price_change_percentage_7d_in_currency";
+        const key = columns[id].key;
+        return (
+          <span
+            className={`percent ${record[key] > 0 ? "positive" : "negative"}`}
+          >
+            {formatPercentage(record[key])}
+          </span>
+        );
+      },
+    },
+    sparkline_in_7d: {
+      title: "Last 7 Days",
+      key: "sparkline_in_7d",
+      render: (record) => {
+        const id = "sparkline_in_7d";
+        const key = columns[id].key;
+        return <TinyLine data={record[key].price} {...config} />;
+      },
+    },
+
+    // {
+    //   title: "Last 7 Days",
+    //   dataIndex: "sparkline_in_7d",
+    //   key: "sparkline_in_7d",
+    //   align: "center",
+    //   width: 100,
+    //   height: 60,
+    //   render: ({ price }) => {
+    //     // const dataMod = price.map((price) => price.toFixed(4));
+    //     // <MiniChart dataSet={price}/>
+    //
+    //     // const sparklinePrices = sparkline.price.map((price, indx) => ({
+    //     //   day: Math.round(indx * 100 / sparkline.price.length),
+    //     //   value: Math.ceil(price),
+    //     // }));
+    //     // return <Line data={sparklinePrices} {...config} />;
+    //   },
+    // },
+  };
+
+  const renderHeader = () => (
+    <Row>
+      {Object.values(columns).map((column, ind) => (
+        <Cell className="stickyBG" id={`${column.title}${ind}`}>
+          {column.title}
+        </Cell>
+      ))}
+    </Row>
+  );
+
+  const renderRows = (data, ind) => (
+    <Row
+      className="coinRow"
+      style={{ zIndex: "3" }}
+      key={`${data.id}${ind}`}
+      onClick={() => {
+        setLoading({
+          load: true,
+          tip: `Loading Coin!`,
+        });
+        //timeout
+        history.push(`/coin/${data.id}`);
       }}
-      pagination={false}
-      columns={columns}
-      dataSource={stateValues.coins}
-      rowKey={(record, indx) => `${record.id}${indx}`}
-      sticky={true}
-      scroll={{ x: "max-content" }}
-    />
+    >
+      <Cell className="stickyBG" style={{ zIndex: "2" }}>
+        {columns.coin.render(data)}
+      </Cell>
+      <Cell>{columns.symbol.render(data)}</Cell>
+      <Cell>{columns.current_price.render(data)}</Cell>
+      <Cell>{columns.price_change_percentage_1h_in_currency.render(data)}</Cell>
+      <Cell>
+        {columns.price_change_percentage_24h_in_currency.render(data)}
+      </Cell>
+      <Cell>{columns.price_change_percentage_7d_in_currency.render(data)}</Cell>
+      <Cell>{columns.sparkline_in_7d.render(data)}</Cell>
+    </Row>
+  );
+
+  return (
+    <div>
+      {stateValues.coins && (
+        // <AntdRow>
+        <StickyTable>
+          {renderHeader()}
+          {stateValues.coins.map((data, ind) => renderRows(data, ind))}
+        </StickyTable>
+        // </AntdRow>
+      )}
+      {/* <Table
+        onRow={(record) => {
+          return {
+            , // click row
+          };
+        }}
+        pagination={false}
+        columns={columns}
+        dataSource={stateValues.coins}
+        rowKey={(record, indx) => `${record.id}${indx}`}
+        sticky={true}
+        scroll={{ x: "max-content" }}
+      /> */}
+    </div>
   );
 }

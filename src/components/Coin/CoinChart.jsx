@@ -6,6 +6,7 @@ import { Line } from "@ant-design/charts";
 import { getSelectedCoin } from "../../utils/api";
 import { formatPrice } from "../../utils/helpers";
 import { interval } from "../../utils/const";
+import { Spinner } from "../loadingSpinner/Spinner";
 
 export default function CoinChart(props) {
   const { selectedCoinC } = useContext(stateCoinsContext);
@@ -13,6 +14,7 @@ export default function CoinChart(props) {
   const [selectedCoin, setSelectedCoin] = selectedCoinC;
   const [coinChartData, setChartData] = useState([]);
   const [lastInterval, setLastInterval] = useState();
+  const [isLoading, setLoading] = useState(false);
 
   useEffect(() => {
     if (selectedCoin) {
@@ -65,9 +67,12 @@ export default function CoinChart(props) {
       : interval.max.value;
 
     (async function () {
+      setLoading(true);
+
       const coinChartInfo = await getSelectedCoin(selectedCoin, chartInterval);
       setChartData(coinChartInfo);
       setLastInterval(e.target.value);
+      setLoading(false);
     })();
   };
 
@@ -84,17 +89,21 @@ export default function CoinChart(props) {
     ));
 
   return (
-    <div style={{ marginTop: "20px" }}>
-      {coinChartData && (
-        <div>
-          <div className="navigation">{renderButtons()}</div>
-          <Line
-            data={coinChartData}
-            {...config}
-            style={{ marginTop: "15px" }}
-          />
-        </div>
-      )}
+    <div style={{ marginTop: "10px" }}>
+      <div className="navigation">{renderButtons()}</div>
+      <div style={{ marginTop: "20px" }}>
+        {coinChartData && (
+          <div>
+            <Line
+              loading={isLoading}
+              loadingTemplate={<Spinner tip="Fetching Chart Data..." />}
+              data={coinChartData}
+              {...config}
+              style={{ marginTop: "15px", position: "relative", zIndex: "99" }}
+            />
+          </div>
+        )}
+      </div>
     </div>
   );
 }

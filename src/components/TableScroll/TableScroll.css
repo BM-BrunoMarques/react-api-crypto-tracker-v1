@@ -19,7 +19,7 @@ tr.ant-table-row {
 }
 
 .ant-table-tbody > tr:first-child {
-margin-top:-20px
+  margin-top: -20px;
 }
 
 /* row tags */
@@ -38,10 +38,17 @@ margin-top:-20px
 }
 
 .title {
-  margin-left: 3px;
+  margin-left: 10px;
   font-size: 13px;
   font-weight: bold;
   align-self: center;
+  white-space: normal;
+}
+
+.sticky-table-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 15px;
 }
 
 .percent.negative {
@@ -57,4 +64,41 @@ margin-top:-20px
   left: 14px;
   top: -11px; */
   margin-top: 40px;
+}
+
+.sticky-table {
+  display: contents;
+}
+
+.coinRow {
+  cursor: pointer;
+}
+
+.coinRow {
+  background-color: white;
+  transition: 0.5s background;
+  -webkit-transition: 0.5s background;
+  -moz-transition: 0.5s background;
+  -o-transition: 0.5s background;
+  -ms-transition: 0.5s background;
+}
+.coinRow:hover * {
+  background-color: #ececec !important;
+  transition: 0.5s background;
+  -webkit-transition: 0.5s background;
+  -moz-transition: 0.5s background;
+  -o-transition: 0.5s background;
+  -ms-transition: 0.5s background;
+}
+.sticky-table-cell {
+  background: none !important;
+}
+
+.stickyBG {
+  background: white !important;
+}
+
+.sticky-table-cell {
+  vertical-align: middle;
+  text-align: center;
 }

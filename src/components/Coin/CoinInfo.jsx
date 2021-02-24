@@ -4,37 +4,14 @@ import {
   formatPrice,
   formatPercentage,
   formatNumber,
+  renderInfo
 } from "../../utils/helpers";
 
 export default function CoinDataTable(props) {
   const { coinData } = props;
-
   const typeMoney = formatPrice;
   const typePercent = formatPercentage;
   const typeNumber = formatNumber;
-
-  const renderInfo = (data, label, convertData) => {
-    if (
-      (typeof data === "object" && !Number(data[0])) ||
-      (typeof data !== "object" && !Number(data))
-    ) {
-      return;
-    }
-
-    return (
-      <div className="tagRow">
-        <div className="tagLegend">{label}</div>
-        {typeof data === "object" ? (
-          <div className="info">
-            {convertData(data[0])} / {convertData(data[1])}
-          </div>
-        ) : (
-          <div className="info">{convertData(data)}</div>
-        )}
-      </div>
-    );
-  };
-
   return (
     <Row className="coinTableContainer">
       <Col

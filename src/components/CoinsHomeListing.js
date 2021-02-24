@@ -55,7 +55,6 @@ export default function CoinsHomeListing(props) {
       setMoreItems(false);
     }
     getCoins(stateValues.page).then((responseCoins) => {
-      console.log("fetched");
 
       setStateValues((prevState) => {
         return {
@@ -79,7 +78,7 @@ export default function CoinsHomeListing(props) {
           getScrollParent={() => scrollParentRefC.current}
           useWindow={false}
         >
-          <TableScroll />
+          <TableScroll parentRef={scrollParentRefC} />
           {!moreItems && (
             <p style={{ textAlign: "center" }}>
               <b>You have seen it all...</b>

@@ -18,6 +18,7 @@ export default function TagLinks(props) {
   const { facebook, reddit, twitter, telegram, repos, blueGray } = colors;
 
   const renderItemLink = (item, color, icon) => {
+    if (!item) return;
     let url, itemName;
     if (item.length) {
       url = new URL(item);
@@ -25,7 +26,7 @@ export default function TagLinks(props) {
 
       itemName = itemSplit[Math.floor((itemSplit.length - 1) / 2)];
     }
-    return item.length ? (
+    return item?.length ? (
       <Tag key={url} icon={icon} color={color}>
         <a href={item}>{itemName}</a>
       </Tag>

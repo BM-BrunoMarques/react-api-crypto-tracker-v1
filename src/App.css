@@ -18,9 +18,15 @@ div#root {
   overflow-y: scroll;
 }
 
+.ant-col.coinListingTable {
+  overflow-y: auto;
+  height: 70vh;
+}
+
 @media only screen and (max-width: 575px) {
   .mainContent,
-  .CoinsListingContainer {
+  .CoinsListingContainer,
+  .ant-col.coinListingTable {
     max-height: 100%;
   }
 }

@@ -1,3 +1,5 @@
+import { formatDate } from "./helpers";
+
 export async function getCoins(pageNum) {
   const coinReq = await fetch(`
   https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=250&page=${pageNum}&sparkline=true&price_change_percentage=1h,24h,7d`);
@@ -13,18 +15,10 @@ export async function getSelectedCoin(coin, days) {
   };
   const coinReq = await fetch(`
   https://api.coingecko.com/api/v3/coins/${coin}/market_chart?vs_currency=usd&days=${days.toString()}&interval=${interval()}`);
-  console.log("days is", days, coin, interval());
 
   const coinRes = await coinReq.json();
-  console.log("response", coinRes);
   const coinList = coinRes.prices.map((data) => {
-    const dateConverted = new Date(data[0]);
-
-    const month = dateConverted.getMonth() + 1;
-    const day = dateConverted.getDate();
-    const year = dateConverted.getFullYear();
-    const hour = dateConverted.getHours();
-    const minute = dateConverted.getMinutes();
+    const { month, day, year, hour, minute } = formatDate(data);
     const price = data[1];
 
     switch (true) {

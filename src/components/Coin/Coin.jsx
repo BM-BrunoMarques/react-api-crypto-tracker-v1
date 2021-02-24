@@ -11,7 +11,7 @@ import parse from "html-react-parser";
 import TagLinks from "./TagLinks";
 import CoinChart from "./CoinChart";
 import CoinInfo from "./CoinInfo";
-import CoinDataTable from "./CoinDataTable";
+import CoinBottomInfo from "./CoinBottomInfo";
 
 export default function Coin(props) {
   const {
@@ -62,109 +62,129 @@ export default function Coin(props) {
       (async function () {
         const coinData = await getSelectedCoinData(selectedCoin);
         setcoinData(coinData);
+        setLoading(false);
       })();
     }
   }, [selectedCoin]);
 
   const handleClick = () => {
-    setLoading({
-      load: true,
-      tip: `Taking you back...`,
-    });
-    //CHANGE
-    setTimeout(() => {
+    (async function () {
+      setLoading({
+        load: true,
+        tip: `Taking you back...`,
+      });
+      //timeout
       history.push("/");
       setSearchText("");
       setSelectedCoin("");
-    }, 10);
+    })();
+
+    //CHANGE
+    // setTimeout(() => {
+
+    // }, 10);
     //
   };
 
   return (
     <Col className="coinStage" span={24}>
-      {coinData && (
-        <Row>
-          {isLoading.load && <Spinner tip={isLoading.tip} />}
+      <button onClick={handleClick}>back to Coins</button>
+      <div className="coinWrap">
+        {coinData && (
+          <Row>
+            {isLoading.load && <Spinner tip={isLoading.tip} />}
+            <Col
+              xs={{ span: 24 }}
+              sm={{ span: 22, offset: 1 }}
+              md={{ span: 23, offset: 1 }}
+            >
+              <Row className="header" justify="start">
+                <Col span={14}>
+                  <div className="headerLeft">
+                    <Avatar size={avatarSize} src={coinData.image?.large} />
 
-          <button onClick={handleClick}>back to Coins</button>
+                    <h2 className="titleCoin">
+                      {coinData.name} <i>({coinData.symbol?.toUpperCase()})</i>
+                    </h2>
+                  </div>
+                </Col>
+                <Col span={9} offset={1}>
+                  <div className="headerRight">
+                    <span className="currentPrice">
+                      {formatPrice(coinData.market_data.current_price.usd)}
+                    </span>
+                    <span
+                      className={`percent ${
+                        coinData.market_data.price_change_percentage_24h >= 0
+                          ? "positive"
+                          : "negative"
+                      }`}
+                    >
+                      {formatPercentage(
+                        coinData.market_data.price_change_percentage_24h
+                      )}
+                    </span>
+                  </div>
+                </Col>
+              </Row>
 
-          <Col xs={{ span: 24 }} sm={{ span: 22, offset: 1 }}>
-            <Row className="header" justify="start">
-              <Col span={14}>
-                <div className="headerLeft">
-                  <Avatar size={avatarSize} src={coinData.image?.large} />
+              <Col md={{ span: 22, offset: 1 }}>
+                <Row style={{ alignItems: "center", justifyContent: "center" }}>
+                  <Col className="leftSide" xs={{ span: 24 }} sm={{ span: 13 }}>
+                    <TagLinks coinData={coinData} />
+                  </Col>
 
-                  <h2 className="titleCoin">
-                    {coinData.name} <i>({coinData.symbol?.toUpperCase()})</i>
-                  </h2>
-                </div>
-              </Col>
-              <Col span={9} offset={1}>
-                <div className="headerRight">
-                  <span className="currentPrice">
-                    {formatPrice(coinData.market_data.current_price.usd)}
-                  </span>
-                  <span
-                    className={`percent ${
-                      coinData.market_data.price_change_percentage_24h >= 0
-                        ? "positive"
-                        : "negative"
-                    }`}
+                  <Col
+                    className="rightSide"
+                    xs={{ span: 24 }}
+                    sm={{ span: 8, offset: 2 }}
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                    }}
                   >
-                    {formatPercentage(
-                      coinData.market_data.price_change_percentage_24h
-                    )}
-                  </span>
+                    <CoinInfo coinData={coinData} />
+                  </Col>
+                </Row>
+                <Row style={{ marginTop: "40px" }} justify="start">
+                  <Col span={24}>
+                    <Row>
+                      <Col
+                        xs={{ span: 22, offset: 1 }}
+                        sm={{ span: 23, offset: 1 }}
+                        md={{ span: 13, offset: 0 }}
+                      >
+                        <CoinChart />
+                      </Col>
+                      <Col
+                        xs={{ span: 24, offset: 0 }}
+                        sm={{ span: 20, offset: 3 }}
+                        md={{ span: 10, offset: 1 }}
+                      >
+                        <CoinBottomInfo coinData={coinData} />
+                      </Col>
+                    </Row>
+                  </Col>
+                </Row>
+              </Col>
+
+              <Col xs={{ span: 24, offset: 0 }} xl={{ span: 14, offset: 1 }}>
+                <div className="description">
+                  <div className="title">
+                    <Avatar size={50} src={coinData.image?.large} />
+                    {`About ${coinData.name}:`}
+                  </div>
+                  <div className="text">
+                    <div className="textWrap">
+                      {parse(`${coinData.description?.en}`)}
+                    </div>
+                  </div>
                 </div>
               </Col>
-            </Row>
-
-            <Col md={{ span: 24 }}>
-              <Row style={{ alignItems: "center", justifyContent: "center" }}>
-                <Col className="leftSide" xs={{ span: 24 }} sm={{ span: 13 }}>
-                  <TagLinks coinData={coinData} />
-                </Col>
-
-                <Col
-                  className="rightSide"
-                  xs={{ span: 24 }}
-                  sm={{ span: 8, offset: 2 }}
-                  style={{
-                    display: "flex",
-                    justifyContent: "center",
-                  }}
-                >
-                  <CoinInfo coinData={coinData} />
-                </Col>
-              </Row>
-              <Row justify="start">
-                <Col span={24}>
-                  <Row>
-                    <Col
-                      xs={{ span: 22, offset: 1 }}
-                      sm={{ span: 23, offset: 1 }}
-                      md={{ span: 14, offset: 0 }}
-                    >
-                      <CoinChart />
-                    </Col>
-                    <Col
-                      xs={{ span: 22, offset: 2 }}
-                      sm={{ span: 17, offset: 2 }}
-                      md={{ span: 9, offset: 1 }}
-                    >
-                      <CoinDataTable coinData={coinData} />
-                    </Col>
-                  </Row>
-                </Col>
-              </Row>
             </Col>
-
-            <Col xs={{ span: 24, offset: 0 }} xl={{ span: 10, offset: 0 }}>
-              {parse(`${coinData.description?.en}`)}
-            </Col>
-          </Col>
-        </Row>
-      )}
+          </Row>
+        )}
+      </div>
     </Col>
   );
 }

@@ -19,6 +19,7 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.1",
     "react-search-autocomplete": "^5.0.2",
+    "react-sticky-table": "^5.1.11",
     "web-vitals": "^0.2.4",
     "yarn": "^1.22.10"
   },
