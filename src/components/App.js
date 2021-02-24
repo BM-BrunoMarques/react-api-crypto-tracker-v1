@@ -24,8 +24,6 @@ function App() {
     tip: "",
   });
 
-  // const [page, setPage] = useState(1);
-
   const [selectedCoin, setSelectedCoin] = useState("");
   const [moreItems, setMoreItems] = useState(true);
   const [numOfPages, setnumOfPages] = useState();
@@ -48,8 +46,8 @@ function App() {
       <stateCoinsContext.Provider value={coinsStoreContext}>
         <BrowserRouter>
           <Header>
-            <Row style={{ width: "100%" }} align="middle" justify="end">
-              <Col xs={{ span: 10, offset: 9 }} xl={{ span: 5, offset: 18 }}>
+            <Row style={{ width: "100%" }} align="start">
+              <Col xs={{ span: 10 }} xl={{ span: 5 }}>
                 <SearchBar
                   selectedCoin={selectedCoin}
                   setSelectedCoin={setSelectedCoin}
