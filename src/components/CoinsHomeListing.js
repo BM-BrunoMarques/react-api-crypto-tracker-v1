@@ -34,11 +34,11 @@ export default function CoinsHomeListing(props) {
         setnumOfPages(Math.ceil(responseAllCoins.length / 250));
       });
     }
-    // setLoading(false);
+    setLoading(false);
   }, []);
 
   useEffect(() => {
-    // setLoading(false);
+    setLoading(false);
     if (scrollPosition) {
       document?.getElementById(scrollPosition)?.scrollIntoView();
     }
@@ -55,7 +55,6 @@ export default function CoinsHomeListing(props) {
       setMoreItems(false);
     }
     getCoins(stateValues.page).then((responseCoins) => {
-
       setStateValues((prevState) => {
         return {
           coins: prevState.coins
@@ -64,7 +63,7 @@ export default function CoinsHomeListing(props) {
           page: prevState.page + 1,
         };
       });
-      // setLoading(false);
+      setLoading(false);
     });
   };
   return (
