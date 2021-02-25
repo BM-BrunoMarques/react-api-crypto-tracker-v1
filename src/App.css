@@ -14,8 +14,9 @@ div#root {
 }
 
 .CoinsListingContainer {
-  max-height: 70vh;
-  overflow-y: scroll;
+  max-height: 70vh !important;
+  overflow-y: scroll !important;
+  display: block!important;
 }
 
 .ant-col.coinListingTable {

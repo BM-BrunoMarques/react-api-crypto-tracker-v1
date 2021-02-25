@@ -2,7 +2,7 @@ import { formatDate } from "./helpers";
 
 export async function getCoins(pageNum) {
   const coinReq = await fetch(`
-  https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=30&page=${pageNum}&sparkline=true&price_change_percentage=1h,24h,7d`);
+  https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=75&page=${pageNum}&sparkline=true&price_change_percentage=1h,24h,7d`);
   return coinReq.json();
 }
 

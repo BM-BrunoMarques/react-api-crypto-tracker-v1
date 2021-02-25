@@ -4,18 +4,24 @@ import { TinyLine } from "@ant-design/charts";
 import { stateCoinsContext } from "../App";
 import { formatPrice, formatPercentage } from "../../utils/helpers";
 import { useHistory } from "react-router-dom";
-import { Row as AntdRow, Col as AntdCol } from "antd";
 import { StickyTable, Row, Cell } from "react-sticky-table";
+import LazyLoad, { forceVisible, forceCheck } from "react-lazyload";
 
 import "./TableScroll.css";
 
 export default function TableScroll(props) {
-  const { stateCoinsC, isLoadingC } = useContext(stateCoinsContext);
+  const { stateCoinsC, isLoadingC, fetchDataFunctionC } = useContext(
+    stateCoinsContext
+  );
+
+  const [fetchDataFunction] = fetchDataFunctionC;
   const [stateValues] = stateCoinsC;
   const [isLoading, setLoading] = isLoadingC;
   const history = useHistory();
 
   useEffect(() => {
+    forceCheck();
+    forceVisible();
     setLoading({
       load: false,
     });
@@ -161,8 +167,9 @@ export default function TableScroll(props) {
     // },
   };
 
-  const renderHeader = () => (
-    <Row>
+  console.log('FETCH DATA IS :',fetchDataFunction);
+  const renderHeader = (data, ind) => (
+    <Row className="sticky-table-row">
       {Object.values(columns).map((column, ind) => (
         <Cell className="stickyBG" id={`${column.title}${ind}`}>
           {column.title}
@@ -174,7 +181,7 @@ export default function TableScroll(props) {
   const renderRows = (data, ind) => (
     <Row
       className="coinRow"
-      style={{ zIndex: "3" }}
+      style={{ zIndex: "3", display: "contents" }}
       key={`${data.id}${ind}`}
       onClick={() => {
         setLoading({
@@ -185,28 +192,51 @@ export default function TableScroll(props) {
         history.push(`/coin/${data.id}`);
       }}
     >
-      <Cell className="stickyBG" style={{ zIndex: "2" }}>
-        {columns.coin.render(data)}
-      </Cell>
-      <Cell>{columns.symbol.render(data)}</Cell>
-      <Cell>{columns.current_price.render(data)}</Cell>
-      <Cell>{columns.price_change_percentage_1h_in_currency.render(data)}</Cell>
-      <Cell>
-        {columns.price_change_percentage_24h_in_currency.render(data)}
-      </Cell>
-      <Cell>{columns.price_change_percentage_7d_in_currency.render(data)}</Cell>
-      <Cell>{columns.sparkline_in_7d.render(data)}</Cell>
+      <LazyLoad
+        overflow
+        height={50}
+        className="coinRow"
+        style={{ display: "table-row" }}
+      >
+        <Cell className="stickyBG" style={{ zIndex: "2" }}>
+          {columns.coin.render(data)}
+        </Cell>
+
+        <Cell>{columns.symbol.render(data)}</Cell>
+        <Cell>{columns.current_price.render(data)}</Cell>
+        <Cell>
+          {columns.price_change_percentage_1h_in_currency.render(data)}
+        </Cell>
+        <Cell>
+          {columns.price_change_percentage_24h_in_currency.render(data)}
+        </Cell>
+        <Cell>
+          {columns.price_change_percentage_7d_in_currency.render(data)}
+        </Cell>
+        <Cell>{columns.sparkline_in_7d.render(data)}</Cell>
+      </LazyLoad>
     </Row>
   );
+
+  const onScroll = (e) => {
+
+    if (e.target.scrollTop >= e.target.scrollHeight - e.target.offsetHeight) {
+      fetchDataFunction();
+    }
+  };
 
   return (
     <div>
       {stateValues.coins && (
         // <AntdRow>
-        <StickyTable>
-          {renderHeader()}
-          {stateValues.coins.map((data, ind) => renderRows(data, ind))}
-        </StickyTable>
+        <div className="wrapper overflow-wrapper">
+          <div className="overflow">
+            <StickyTable className="CoinsListingContainer" onScroll={onScroll}>
+              {renderHeader()}
+              {stateValues.coins.map((data, ind) => renderRows(data, ind))}
+            </StickyTable>
+          </div>
+        </div>
         // </AntdRow>
       )}
       {/* <Table

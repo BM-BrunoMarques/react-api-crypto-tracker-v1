@@ -29,6 +29,7 @@ function App() {
   const [numOfPages, setnumOfPages] = useState();
   const [searchText, setSearchText] = useState("");
   const [scrollPosition, setScrollPosition] = useState("");
+  const [fetchDataFunction, setFetchData] = useState(null);
 
   const coinsStoreContext = {
     selectedCoinC: [selectedCoin, setSelectedCoin],
@@ -38,7 +39,8 @@ function App() {
     isLoadingC: [isLoading, setLoading],
     searchTextC: [searchText, setSearchText],
     scrollPositionC: [scrollPosition, setScrollPosition],
-    scrollParentRefC: scrollParentRef,
+    fetchDataFunctionC: [fetchDataFunction,setFetchData],
+    scrollParentRefC: scrollParentRef
   };
 
   return (

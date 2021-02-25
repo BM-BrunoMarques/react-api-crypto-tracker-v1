@@ -16,6 +16,7 @@ export default function CoinsHomeListing(props) {
     scrollParentRefC,
     selectedCoinC,
     scrollPositionC,
+    fetchDataFunctionC,
   } = useContext(stateCoinsContext);
   const scrollParentRef = useRef(null);
 
@@ -25,6 +26,7 @@ export default function CoinsHomeListing(props) {
   const [stateValues, setStateValues] = stateCoinsC;
   const [isLoading, setLoading] = isLoadingC;
   const [scrollPosition, setScrollPosition] = scrollPositionC;
+  const [fetchDataFunction, setFetchData] = fetchDataFunctionC;
   //
   const tip = "";
 
@@ -34,6 +36,11 @@ export default function CoinsHomeListing(props) {
         setnumOfPages(Math.ceil(responseAllCoins.length / 250));
       });
     }
+    if (!fetchDataFunction) {
+      setFetchData(() => fetchData);
+      fetchData();
+    }
+
     setLoading(false);
   }, []);
 
@@ -45,8 +52,8 @@ export default function CoinsHomeListing(props) {
   }, [selectedCoin]);
 
   const fetchData = () => {
-    if (isLoading.load || !moreItems || selectedCoin) return;
-    //
+    if (!moreItems || selectedCoin) return;
+
     setLoading({
       load: true,
       tip: "Fetching Coins...",
@@ -66,24 +73,20 @@ export default function CoinsHomeListing(props) {
       setLoading(false);
     });
   };
+
   return (
-    <div className="CoinsListingContainer" ref={scrollParentRef}>
+    <div className="CoinsListingContainer">
       {isLoading.load && <Spinner tip={isLoading.tip} />}
 
       {numOfPages && (
-        <InfiniteScroll
-          loadMore={fetchData}
-          hasMore={moreItems}
-          getScrollParent={() => scrollParentRefC.current}
-          useWindow={false}
-        >
-          <TableScroll parentRef={scrollParentRefC} />
+        <div>
+          <TableScroll />
           {!moreItems && (
             <p style={{ textAlign: "center" }}>
               <b>You have seen it all...</b>
             </p>
           )}
-        </InfiniteScroll>
+        </div>
       )}
     </div>
   );
