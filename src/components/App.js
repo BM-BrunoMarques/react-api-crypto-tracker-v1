@@ -20,7 +20,7 @@ function App() {
   });
 
   const [isLoading, setLoading] = useState({
-    load: false,
+    load: true,
     tip: "",
   });
 
