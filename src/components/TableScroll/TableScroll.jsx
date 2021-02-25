@@ -167,7 +167,7 @@ export default function TableScroll(props) {
     // },
   };
 
-  console.log('FETCH DATA IS :',fetchDataFunction);
+  console.log("FETCH DATA IS :", fetchDataFunction);
   const renderHeader = (data, ind) => (
     <Row className="sticky-table-row">
       {Object.values(columns).map((column, ind) => (
@@ -197,6 +197,7 @@ export default function TableScroll(props) {
         height={50}
         className="coinRow"
         style={{ display: "table-row" }}
+        once
       >
         <Cell className="stickyBG" style={{ zIndex: "2" }}>
           {columns.coin.render(data)}
@@ -219,7 +220,6 @@ export default function TableScroll(props) {
   );
 
   const onScroll = (e) => {
-
     if (e.target.scrollTop >= e.target.scrollHeight - e.target.offsetHeight) {
       fetchDataFunction();
     }
@@ -230,12 +230,13 @@ export default function TableScroll(props) {
       {stateValues.coins && (
         // <AntdRow>
         <div className="wrapper overflow-wrapper">
-          <div className="overflow">
-            <StickyTable className="CoinsListingContainer" onScroll={onScroll}>
-              {renderHeader()}
-              {stateValues.coins.map((data, ind) => renderRows(data, ind))}
-            </StickyTable>
-          </div>
+          <StickyTable
+            className="overflow CoinsListingContainer"
+            onScroll={onScroll}
+          >
+            {renderHeader()}
+            {stateValues.coins.map((data, ind) => renderRows(data, ind))}
+          </StickyTable>
         </div>
         // </AntdRow>
       )}
