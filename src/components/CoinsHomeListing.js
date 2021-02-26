@@ -1,10 +1,8 @@
 import "../App.css";
 import React, { useEffect, useContext, useRef } from "react";
 import { getCoins, getAllCoinsList } from "../utils/api.js";
-import InfiniteScroll from "react-infinite-scroller";
 import { Spinner } from "./loadingSpinner/Spinner";
 import { stateCoinsContext } from "./App";
-import { CurrencyCard } from "./CurrencyCard/CurrencyCard";
 import TableScroll from "./TableScroll/TableScroll";
 
 export default function CoinsHomeListing(props) {
