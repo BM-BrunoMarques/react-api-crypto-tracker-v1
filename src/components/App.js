@@ -39,8 +39,8 @@ function App() {
     isLoadingC: [isLoading, setLoading],
     searchTextC: [searchText, setSearchText],
     scrollPositionC: [scrollPosition, setScrollPosition],
-    fetchDataFunctionC: [fetchDataFunction,setFetchData],
-    scrollParentRefC: scrollParentRef
+    fetchDataFunctionC: [fetchDataFunction, setFetchData],
+    scrollParentRefC: scrollParentRef,
   };
 
   return (
@@ -48,8 +48,8 @@ function App() {
       <stateCoinsContext.Provider value={coinsStoreContext}>
         <BrowserRouter>
           <Header>
-            <Row style={{ width: "100%" }} align="start">
-              <Col xs={{ span: 10 }} xl={{ span: 5 }}>
+            <Row style={{ height: "100%" }} align="start">
+              <Col style={{ height: "100%" }} span={24}>
                 <SearchBar
                   selectedCoin={selectedCoin}
                   setSelectedCoin={setSelectedCoin}

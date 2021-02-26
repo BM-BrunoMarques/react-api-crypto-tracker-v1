@@ -1,7 +1,6 @@
 import { months } from "./const";
 
 export const formatPrice = (price) => {
-  console.log("formatPrice", price);
   if (!Number(price)) {
     return "?";
   }
@@ -81,13 +80,29 @@ export const renderInfo = (data, label, convertData) => {
   );
 };
 
-export const renderBottomInfo = ({ data, label, type, addClass }) => {
+export const renderBottomInfo = ({
+  data,
+  label,
+  type,
+  addClass,
+  separator,
+}) => {
   const addClassCategory = (data) => {
     const classes = [];
     classes.push(data.includes("-") ? "negative " : "");
     classes.push(data.includes("%") ? "percent " : "");
     classes.push(data.includes("$") ? "currency " : "");
+    const classDate = () => {
+      for (let month of months) {
+        if (data.includes(month)) {
+          return true;
+        }
+      }
+      return false;
+    };
 
+    classes.push(classDate() ? "date" : "");
+    classes.push();
     return classes.join("").toString();
   };
 
@@ -104,21 +119,25 @@ export const renderBottomInfo = ({ data, label, type, addClass }) => {
         converted = type[indx](data);
       }
       convertedData.push(converted);
-      console.log("converted", converted);
     });
   } else {
     convertedData.push(type(data));
   }
 
   return (
-    <div className="tagRow">
+    <div key={label} className="tagRow">
       <div className="tagLegend">{label}</div>
       <div className={`info ${addClass}`}>
-        {convertedData.map((data) => (
-          <span className={`${addClassCategory(data)}`}>{data}</span>
+        {convertedData.map((data, indx) => (
+          <span
+            key={`${addClass}${label}${indx ** 2}`}
+            className={`${addClassCategory(data)}`}
+          >
+            {data}
+            {separator && <span className="separator">{separator[indx]}</span>}
+          </span>
         ))}
       </div>
     </div>
   );
-
 };

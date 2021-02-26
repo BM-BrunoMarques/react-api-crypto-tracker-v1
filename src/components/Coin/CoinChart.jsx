@@ -57,7 +57,6 @@ export default function CoinChart(props) {
   };
 
   const changeInterval = (e) => {
-    console.log(e.target.value);
     if (lastInterval === e.target.value) {
       console.log("returned", lastInterval, " e : ", e.target.value);
       return;

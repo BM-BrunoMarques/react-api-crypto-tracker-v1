@@ -17,12 +17,12 @@ export default function CoinBottomInfo(props) {
   const typeNumber = formatNumber;
   const typeDate = formatDate;
 
-  function DataObj(data, label, type, addClass) {
-    return data, label, type, addClass;
+  function DataObj(data, label, type, addClass, separator) {
+    return data, label, type, addClass, separator;
   }
   const dataArr = [];
 
-  const constructData = (data, label, type) => {
+  const constructData = (data, label, type, separator) => {
     const coinInfo = new DataObj();
     if (typeof data === "object") {
       const dataObject = [];
@@ -43,6 +43,7 @@ export default function CoinBottomInfo(props) {
 
     coinInfo.label = label;
     coinInfo.type = type;
+    coinInfo.separator = separator;
 
     dataArr.push(coinInfo);
   };
@@ -53,14 +54,15 @@ export default function CoinBottomInfo(props) {
         const { coinData } = props;
         const { symbol } = coinData;
         constructData(
-          "market_data.current_price.usd",
+          ["market_data.current_price.usd"],
           `${symbol.toUpperCase()} Price`,
-          typeMoney
+          [typeMoney]
         );
         constructData(
           ["market_data.high_24h.usd", "market_data.low_24h.usd"],
-          "24h Low / 24h High",
-          [typeMoney, typeMoney]
+          "24h High / 24h Low",
+          [typeMoney, typeMoney],
+          ["/"]
         );
         constructData(
           [
@@ -85,17 +87,12 @@ export default function CoinBottomInfo(props) {
     })();
   }, []);
 
-  console.log("table", coinDataTable);
   return (
-    <div>
+    <div className="bottomInfo">
       {coinDataTable && (
-        <div>
-          <div className="bottomInfo">
-            <div className="container">
-              <div className="title">Bitcoin Price and Market Stats</div>
-              {coinDataTable.map((row) => renderBottomInfo(row))}
-            </div>
-          </div>
+        <div className="container">
+          <div className="title">Bitcoin Price and Market Stats</div>
+          {coinDataTable.map((row) => renderBottomInfo(row))}
         </div>
       )}
     </div>

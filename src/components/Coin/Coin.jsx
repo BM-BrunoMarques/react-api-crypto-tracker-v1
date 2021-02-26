@@ -5,7 +5,7 @@ import React, { useEffect, useContext, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { stateCoinsContext } from "../App";
 import { Spinner } from "../loadingSpinner/Spinner";
-import { Avatar, Row, Col } from "antd";
+import { Avatar, Row, Col} from "antd";
 import { getSelectedCoinData } from "../../utils/api";
 import parse from "html-react-parser";
 import TagLinks from "./TagLinks";
@@ -67,22 +67,8 @@ export default function Coin(props) {
     }
   }, [selectedCoin]);
 
-  const handleClick = () => {
-    (async function () {
-      setLoading({
-        load: true,
-        tip: `Taking you back...`,
-      });
-      //timeout
-      history.push("/");
-      setSearchText("");
-      setSelectedCoin("");
-    })();
-  };
-
   return (
     <Col className="coinStage" span={24}>
-      <button onClick={handleClick}>back to Coins</button>
       <div className="coinWrap">
         {coinData && (
           <Row>
@@ -154,6 +140,7 @@ export default function Coin(props) {
                         xs={{ span: 24, offset: 0 }}
                         sm={{ span: 20, offset: 3 }}
                         md={{ span: 10, offset: 1 }}
+                        lg={{ span: 8, offset: 3 }}
                       >
                         <CoinBottomInfo coinData={coinData} />
                       </Col>
@@ -161,20 +148,25 @@ export default function Coin(props) {
                   </Col>
                 </Row>
               </Col>
-
-              <Col xs={{ span: 24, offset: 0 }} xl={{ span: 14, offset: 1 }}>
-                <div className="description">
-                  <div className="title">
-                    <Avatar size={50} src={coinData.image?.large} />
-                    {`About ${coinData.name}:`}
-                  </div>
-                  <div className="text">
-                    <div className="textWrap">
-                      {parse(`${coinData.description?.en}`)}
+              <Row justify="center">
+                <Col
+                  xs={{ span: 24, offset: 0 }}
+                  md={{ span: 22, offset: 1 }}
+                  xl={{ span: 17, offset: 0 }}
+                >
+                  <div className="description">
+                    <div className="title">
+                      <Avatar size={50} src={coinData.image?.large} />
+                      {`About ${coinData.name}:`}
+                    </div>
+                    <div className="text">
+                      <div className="textWrap">
+                        {parse(`${coinData.description?.en}`)}
+                      </div>
                     </div>
                   </div>
-                </div>
-              </Col>
+                </Col>
+              </Row>
             </Col>
           </Row>
         )}

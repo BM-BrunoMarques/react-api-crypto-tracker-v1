@@ -1,10 +1,11 @@
 import "../App.css";
 import React, { useState, useEffect, useContext } from "react";
 import { getAllCoinsList } from "../utils/api";
-import { AutoComplete } from "antd";
+import { AutoComplete, Button } from "antd";
 import { Sorter } from "./AutoComplete/Sorter";
 import { useHistory } from "react-router-dom";
 import { stateCoinsContext } from "./App";
+import { RollbackOutlined } from "@ant-design/icons";
 
 export default function SearchBar(props) {
   //useContext
@@ -31,7 +32,6 @@ export default function SearchBar(props) {
     history.push({
       pathname: "/coin/" + data,
     });
-    setSearchText('');
   };
 
   const onSearch = (searchText) => {
@@ -40,12 +40,36 @@ export default function SearchBar(props) {
     setOptions(filteredOptions);
   };
 
+  const handleClick = () => {
+    (async function () {
+      setLoading({
+        load: true,
+        tip: `Taking you back...`,
+      });
+      history.push("/");
+      setLoading({
+        load: false,
+      });
+      setSearchText("");
+      setSelectedCoin("");
+    })();
+  };
   return (
-    <div>
+    <div style={{ height: "100%" }}>
       {searchCoins && (
-        <div>
+        <div className="searchBar">
+          {selectedCoin && (
+            <Button
+              onClick={handleClick}
+              type="primary"
+              icon={<RollbackOutlined />}
+              size="big"
+            >
+              back to Coins
+            </Button>
+          )}
           <AutoComplete
-            placeholder='Looking for a specific coin?'
+            placeholder="Looking for a specific coin?"
             value={searchText}
             options={searchOptions || []}
             onSelect={onSelect}

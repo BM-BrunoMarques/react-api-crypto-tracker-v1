@@ -5,23 +5,18 @@ import { stateCoinsContext } from "../App";
 import { formatPrice, formatPercentage } from "../../utils/helpers";
 import { useHistory } from "react-router-dom";
 import { StickyTable, Row, Cell } from "react-sticky-table";
-import LazyLoad, { forceVisible, forceCheck } from "react-lazyload";
+import LazyLoad from "react-lazyload";
 
 import "./TableScroll.css";
 
 export default function TableScroll(props) {
-  const { stateCoinsC, isLoadingC, fetchDataFunctionC } = useContext(
-    stateCoinsContext
-  );
+  const { stateCoinsC, isLoadingC } = useContext(stateCoinsContext);
 
-  const [fetchDataFunction] = fetchDataFunctionC;
   const [stateValues] = stateCoinsC;
   const [isLoading, setLoading] = isLoadingC;
   const history = useHistory();
 
   useEffect(() => {
-    forceCheck();
-    forceVisible();
     setLoading({
       load: false,
     });
@@ -146,32 +141,16 @@ export default function TableScroll(props) {
         return <TinyLine data={record[key].price} {...config} />;
       },
     },
-
-    // {
-    //   title: "Last 7 Days",
-    //   dataIndex: "sparkline_in_7d",
-    //   key: "sparkline_in_7d",
-    //   align: "center",
-    //   width: 100,
-    //   height: 60,
-    //   render: ({ price }) => {
-    //     // const dataMod = price.map((price) => price.toFixed(4));
-    //     // <MiniChart dataSet={price}/>
-    //
-    //     // const sparklinePrices = sparkline.price.map((price, indx) => ({
-    //     //   day: Math.round(indx * 100 / sparkline.price.length),
-    //     //   value: Math.ceil(price),
-    //     // }));
-    //     // return <Line data={sparklinePrices} {...config} />;
-    //   },
-    // },
   };
 
-  console.log("FETCH DATA IS :", fetchDataFunction);
   const renderHeader = (data, ind) => (
     <Row className="sticky-table-row">
       {Object.values(columns).map((column, ind) => (
-        <Cell className="stickyBG" id={`${column.title}${ind}`}>
+        <Cell
+          key={`${column.title}${ind}`}
+          className="stickyBG"
+          id={`${column.title}${ind}`}
+        >
           {column.title}
         </Cell>
       ))}
@@ -194,10 +173,10 @@ export default function TableScroll(props) {
     >
       <LazyLoad
         overflow
+        key={`${data.id}${ind}`}
         height={50}
         className="coinRow"
         style={{ display: "table-row" }}
-        once
       >
         <Cell className="stickyBG" style={{ zIndex: "2" }}>
           {columns.coin.render(data)}
@@ -221,14 +200,13 @@ export default function TableScroll(props) {
 
   const onScroll = (e) => {
     if (e.target.scrollTop >= e.target.scrollHeight - e.target.offsetHeight) {
-      fetchDataFunction();
+      props.fetchData();
     }
   };
 
   return (
     <div>
       {stateValues.coins && (
-        // <AntdRow>
         <div className="wrapper overflow-wrapper">
           <StickyTable
             className="overflow CoinsListingContainer"
@@ -238,21 +216,7 @@ export default function TableScroll(props) {
             {stateValues.coins.map((data, ind) => renderRows(data, ind))}
           </StickyTable>
         </div>
-        // </AntdRow>
       )}
-      {/* <Table
-        onRow={(record) => {
-          return {
-            , // click row
-          };
-        }}
-        pagination={false}
-        columns={columns}
-        dataSource={stateValues.coins}
-        rowKey={(record, indx) => `${record.id}${indx}`}
-        sticky={true}
-        scroll={{ x: "max-content" }}
-      /> */}
     </div>
   );
 }

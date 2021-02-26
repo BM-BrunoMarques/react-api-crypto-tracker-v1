@@ -55,7 +55,7 @@ export default function TagLinks(props) {
   return (
     <div className="tagLinks">
       {coinData.coingecko_rank && (
-        <div className="tagRow">
+        <div className="tagRow rank">
           <div className="tagLegend">Rank</div>
           <div className="tagsContainer">
             <Tag className="rank">Rank #{coinData.coingecko_rank}</Tag>

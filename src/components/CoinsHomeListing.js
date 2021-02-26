@@ -37,19 +37,17 @@ export default function CoinsHomeListing(props) {
       });
     }
     if (!fetchDataFunction) {
-      setFetchData(() => fetchData);
       fetchData();
     }
-
-    setLoading(false);
   }, []);
 
   useEffect(() => {
-    setLoading(false);
     if (scrollPosition) {
       document?.getElementById(scrollPosition)?.scrollIntoView();
     }
   }, [selectedCoin]);
+
+
 
   const fetchData = () => {
     if (!moreItems || selectedCoin) return;
@@ -64,9 +62,8 @@ export default function CoinsHomeListing(props) {
     getCoins(stateValues.page).then((responseCoins) => {
       setStateValues((prevState) => {
         return {
-          coins: prevState.coins
-            .concat(responseCoins)
-            .filter((val, id, array) => array.indexOf(val) === id),
+          ...prevState,
+          coins: [...prevState.coins, ...responseCoins],
           page: prevState.page + 1,
         };
       });
@@ -75,12 +72,12 @@ export default function CoinsHomeListing(props) {
   };
 
   return (
-    <div className="CoinsListingContainer">
+    <div>
       {isLoading.load && <Spinner tip={isLoading.tip} />}
 
       {numOfPages && (
         <div>
-          <TableScroll />
+          <TableScroll fetchData={fetchData} />
           {!moreItems && (
             <p style={{ textAlign: "center" }}>
               <b>You have seen it all...</b>
