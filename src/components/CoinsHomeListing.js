@@ -45,8 +45,6 @@ export default function CoinsHomeListing(props) {
     }
   }, [selectedCoin]);
 
-
-
   const fetchData = () => {
     if (!moreItems || selectedCoin) return;
 

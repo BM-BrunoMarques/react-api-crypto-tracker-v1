@@ -173,6 +173,8 @@ export default function TableScroll(props) {
     >
       <LazyLoad
         overflow
+        resize={true}
+        offset={500}
         key={`${data.id}${ind}`}
         height={50}
         className="coinRow"

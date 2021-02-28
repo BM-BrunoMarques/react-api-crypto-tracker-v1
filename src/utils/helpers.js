@@ -2,7 +2,7 @@ import { months } from "./const";
 
 export const formatPrice = (price) => {
   if (!Number(price)) {
-    return "?";
+    return "";
   }
   const formatter = new Intl.NumberFormat("en-US", {
     style: "currency",
@@ -40,14 +40,15 @@ export const formatNumber = (number) => {
 
 export const formatPercentage = (data) => {
   if (!Number(data)) {
-    return "?";
+    return "";
   }
 
   return parseFloat(data).toFixed(1).concat("%");
 };
 
 export const formatDate = (data) => {
-  const dateConverted = new Date(data[0]);
+  const dateConverted =
+    typeof data === "object" ? new Date(data[0]) : new Date(data);
 
   const month = dateConverted.getMonth() + 1;
   const day = dateConverted.getDate();
@@ -58,29 +59,8 @@ export const formatDate = (data) => {
   return { month, day, year, hour, minute };
 };
 
-export const renderInfo = (data, label, convertData) => {
-  if (
-    (typeof data === "object" && !Number(data[0])) ||
-    (typeof data !== "object" && !Number(data))
-  ) {
-    return;
-  }
 
-  return (
-    <div className="tagRow">
-      <div className="tagLegend">{label}</div>
-      {typeof data === "object" ? (
-        <div className="info">
-          {convertData(data[0])} / {convertData(data[1])}
-        </div>
-      ) : (
-        <div className="info">{convertData(data)}</div>
-      )}
-    </div>
-  );
-};
-
-export const renderBottomInfo = ({
+export const renderCoinInfo = ({
   data,
   label,
   type,

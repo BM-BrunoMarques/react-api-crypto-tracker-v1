@@ -17,7 +17,7 @@ export default function TagLinks(props) {
   const { coinData } = props;
   const { facebook, reddit, twitter, telegram, repos, blueGray } = colors;
 
-  const renderItemLink = (item, color, icon) => {
+  const renderLinksLabel = (item, color, icon) => {
     if (!item) return;
     let url, itemName;
     if (item.length) {
@@ -26,31 +26,99 @@ export default function TagLinks(props) {
 
       itemName = itemSplit[Math.floor((itemSplit.length - 1) / 2)];
     }
-    return item?.length ? (
-      <Tag key={url} icon={icon} color={color}>
-        <a href={item}>{itemName}</a>
-      </Tag>
-    ) : null;
+    return (
+      item?.length && (
+        <a target="_blank" href={item}>
+          <Tag key={url} icon={icon} color={color}>
+            {itemName}
+          </Tag>
+        </a>
+      )
+    );
   };
 
+  //the API is returning objects with empty arrays declared. must check first position [0] to deal with objects with empy properties
   const checkForContent = (section) => {
     switch (section) {
       case "social":
-        if (
+        return (
           coinData.links.subreddit_url?.length ||
           coinData.links.twitter_screen_name?.length ||
           coinData.links.facebook_username?.length ||
           coinData.links.telegram_channel_identifier?.length ||
           coinData.links.official_forum_url[0]
-        ) {
-          return true;
-        } else {
-          return false;
-        }
-        break;
+        );
+
+      case "repos":
+        return (
+          coinData.links.repos_url.github[0] ||
+          coinData.links.repos_url.bitbucket[0]
+        );
+
       default:
     }
   };
+
+  const renderSocialLinks = ({ icon, color, link, label }) =>
+    link && (
+      <a target="_blank" href={link}>
+        <Tag key={label} icon={icon} color={color}>
+          {label}
+        </Tag>
+      </a>
+    );
+
+  const socialLinksStructure = [
+    {
+      icon: <RedditOutlined />,
+      color: reddit,
+      link: coinData.links.subreddit_url,
+      label: "Reddit",
+    },
+    {
+      icon: <TwitterOutlined />,
+      color: twitter,
+      link: coinData.links.twitter_screen_name,
+      label: "Twitter",
+    },
+    {
+      icon: <FacebookOutlined />,
+      color: facebook,
+      link: coinData.links.facebook_username,
+      label: "Facebook",
+    },
+    {
+      icon: <SendOutlined />,
+      color: telegram,
+      link: coinData.links.telegram_channel_identifier,
+      label: "Telegram",
+    },
+  ];
+
+  const codeReposLinks = [
+    {
+      icon: <GithubOutlined />,
+      color: repos,
+      link: coinData.links.repos_url.github,
+      label: "Github",
+    },
+    {
+      icon: <CodeSandboxOutlined />,
+      color: repos,
+      link: coinData.links.repos_url.bitbucket,
+      label: "Bitbucket",
+    },
+  ];
+
+  const renderReposLinks = ({ icon, color, link, label }) =>
+    link[0] &&
+    link.map((elLink, indx) => (
+      <a target="_blank" href={elLink}>
+        <Tag key={(label, indx)} icon={icon} color={color}>
+          {label}
+        </Tag>
+      </a>
+    ));
 
   return (
     <div className="tagLinks">
@@ -66,7 +134,7 @@ export default function TagLinks(props) {
         <div className="tagRow">
           <div className="tagLegend">Website</div>
           <div className="tagsContainer">
-            {coinData.links.homepage.map((item) => renderItemLink(item))}
+            {coinData.links.homepage.map((item) => renderLinksLabel(item))}
           </div>
         </div>
       )}
@@ -75,7 +143,9 @@ export default function TagLinks(props) {
         <div className="tagRow">
           <div className="tagLegend">Explorers</div>
           <div className="tagsContainer">
-            {coinData.links.blockchain_site.map((item) => renderItemLink(item))}
+            {coinData.links.blockchain_site.map((item) =>
+              renderLinksLabel(item)
+            )}
           </div>
         </div>
       )}
@@ -84,79 +154,23 @@ export default function TagLinks(props) {
         <div className="tagRow social">
           <div className="tagLegend">Community</div>
           <div className="tagsContainer">
-            {coinData.links.subreddit_url && (
-              <Tag icon={<RedditOutlined />} color={reddit}>
-                <a href={coinData.links.subreddit_url}>Reddit</a>
-              </Tag>
-            )}
-            {coinData.links.twitter_screen_name && (
-              <Tag icon={<TwitterOutlined />} color={twitter}>
-                <a
-                  href={`https://twitter.com/${coinData.links.twitter_screen_name}`}
-                >
-                  Twitter
-                </a>
-              </Tag>
-            )}
-            {coinData.links.facebook_username && (
-              <Tag icon={<FacebookOutlined />} color={facebook}>
-                <a
-                  href={`https://facebook.com/${coinData.links.facebook_username}`}
-                >
-                  Facebook
-                </a>
-              </Tag>
-            )}
-            {coinData.links.telegram_channel_identifier && (
-              <Tag icon={<SendOutlined />} color={telegram}>
-                <a
-                  href={`https://t.me/${coinData.links.telegram_channel_identifier}`}
-                >
-                  Telegram
-                </a>
-              </Tag>
-            )}
+            {socialLinksStructure.map((el) => renderSocialLinks(el))}
+
             {coinData.links.official_forum_url &&
               coinData.links.homepage.map((item) =>
-                renderItemLink(item, blueGray, <LinkOutlined />)
+                renderLinksLabel(item, blueGray, <LinkOutlined />)
               )}
           </div>
         </div>
       )}
 
-      {(coinData.links.repos_url.github[0] ||
-        coinData.links.repos_url.bitbucket[0]) && (
+      {checkForContent("repos") && (
         <div className="tagRow repos">
           <div className="tagLegend">
             <span>Source Code</span>
           </div>
           <div className="tagsContainer">
-            {coinData.links.repos_url.github.map((item, indx) => {
-              if (!item.length) return;
-
-              return (
-                <Tag
-                  key={`${item} ${indx}`}
-                  icon={<GithubOutlined />}
-                  color={repos}
-                >
-                  <a href={item}>Github</a>
-                </Tag>
-              );
-            })}
-            {coinData.links.repos_url.bitbucket.map((item) => {
-              if (!item.length) return;
-
-              return (
-                <Tag
-                  icon={<CodeSandboxOutlined />}
-                  className="forum"
-                  color={repos}
-                >
-                  <a href={item}>Bitbucket</a>
-                </Tag>
-              );
-            })}
+            {codeReposLinks.map((el) => renderReposLinks(el))}
           </div>
         </div>
       )}

@@ -1,16 +1,17 @@
 import "../../App.css";
 import "./Coin.css";
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import {
   formatPrice,
   formatPercentage,
   formatNumber,
   formatDate,
-  renderBottomInfo,
+  renderCoinInfo,
 } from "../../utils/helpers";
 
 export default function CoinBottomInfo(props) {
   const [coinDataTable, setCoinDataTable] = useState();
+  const { selectedCoin } = props;
 
   const typeMoney = formatPrice;
   const typePercent = formatPercentage;
@@ -22,16 +23,16 @@ export default function CoinBottomInfo(props) {
   }
   const dataArr = [];
 
-  const constructData = (data, label, type, separator) => {
+  const constructData = ({ data, label, type, separator }) => {
     const coinInfo = new DataObj();
     if (typeof data === "object") {
       const dataObject = [];
-      data.map((dt) => {
+      for (let dt of data) {
         const splitData = dt.split(".");
         dataObject.push(splitData.reduce((a, b) => a[b], props.coinData));
 
         coinInfo.addClass = splitData[Math.floor(splitData.length / 2)];
-      });
+      }
       coinInfo.data = dataObject;
     } else {
       const splitData = data.split(".");
@@ -48,51 +49,57 @@ export default function CoinBottomInfo(props) {
     dataArr.push(coinInfo);
   };
 
+  const { coinData } = props;
+  const { symbol } = coinData;
+
+  const bottomInfoData = [
+    {
+      data: ["market_data.current_price.usd"],
+      label: `${symbol.toUpperCase()} Price`,
+      type: [typeMoney],
+    },
+    {
+      data: ["market_data.high_24h.usd", "market_data.low_24h.usd"],
+      label: "24h High / 24h Low",
+      type: [typeMoney, typeMoney],
+      separator: ["/"],
+    },
+    {
+      data: [
+        "market_data.ath.usd",
+        "market_data.ath_change_percentage.usd",
+        "market_data.ath_date.usd",
+      ],
+      label: "All-Time High",
+      type: [typeMoney, typePercent, typeDate],
+    },
+    {
+      data: [
+        "market_data.atl.usd",
+        "market_data.atl_change_percentage.usd",
+        "market_data.atl_date.usd",
+      ],
+      label: "All-Time Low",
+      type: [typeMoney, typePercent, typeDate],
+    },
+  ];
+
   useEffect(() => {
     (async function () {
       if (props.coinData) {
-        const { coinData } = props;
-        const { symbol } = coinData;
-        constructData(
-          ["market_data.current_price.usd"],
-          `${symbol.toUpperCase()} Price`,
-          [typeMoney]
-        );
-        constructData(
-          ["market_data.high_24h.usd", "market_data.low_24h.usd"],
-          "24h High / 24h Low",
-          [typeMoney, typeMoney],
-          ["/"]
-        );
-        constructData(
-          [
-            "market_data.ath.usd",
-            "market_data.ath_change_percentage.usd",
-            "market_data.ath_date.usd",
-          ],
-          "All-Time High",
-          [typeMoney, typePercent, typeDate]
-        );
-        constructData(
-          [
-            "market_data.atl.usd",
-            "market_data.atl_change_percentage.usd",
-            "market_data.atl_date.usd",
-          ],
-          "All-Time Low",
-          [typeMoney, typePercent, typeDate]
-        );
+        bottomInfoData.map((data) => constructData(data));
         setCoinDataTable(dataArr);
       }
     })();
-  }, []);
+  }, [props.coinData]);
 
+  console.log(props.coinData);
   return (
     <div className="bottomInfo">
       {coinDataTable && (
         <div className="container">
           <div className="title">Bitcoin Price and Market Stats</div>
-          {coinDataTable.map((row) => renderBottomInfo(row))}
+          {coinDataTable.map((row) => renderCoinInfo(row))}
         </div>
       )}
     </div>

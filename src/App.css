@@ -16,7 +16,7 @@ div#root {
 .CoinsListingContainer {
   max-height: 70vh;
   overflow-y: scroll !important;
-  display: block!important;
+  display: block !important;
 }
 
 .ant-col.coinListingTable {

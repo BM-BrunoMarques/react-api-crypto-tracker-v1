@@ -5,7 +5,7 @@ import React, { useEffect, useContext, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { stateCoinsContext } from "../App";
 import { Spinner } from "../loadingSpinner/Spinner";
-import { Avatar, Row, Col} from "antd";
+import { Avatar, Row, Col } from "antd";
 import { getSelectedCoinData } from "../../utils/api";
 import parse from "html-react-parser";
 import TagLinks from "./TagLinks";
@@ -14,17 +14,13 @@ import CoinInfo from "./CoinInfo";
 import CoinBottomInfo from "./CoinBottomInfo";
 
 export default function Coin(props) {
-  const {
-    selectedCoinC,
-    isLoadingC,
-    searchTextC,
-    scrollPositionC,
-  } = useContext(stateCoinsContext);
+  const { selectedCoinC, isLoadingC, scrollPositionC } = useContext(
+    stateCoinsContext
+  );
 
   const [selectedCoin, setSelectedCoin] = selectedCoinC;
   const [isLoading, setLoading] = isLoadingC;
-  const [searchText, setSearchText] = searchTextC;
-  const [scrollPosition, setScrollPosition] = scrollPositionC;
+  const [, setScrollPosition] = scrollPositionC;
 
   const [coinData, setcoinData] = useState();
   const history = useHistory();
@@ -67,6 +63,7 @@ export default function Coin(props) {
     }
   }, [selectedCoin]);
 
+  console.log("COINDATA :  ", coinData);
   return (
     <Col className="coinStage" span={24}>
       <div className="coinWrap">
@@ -142,31 +139,33 @@ export default function Coin(props) {
                         md={{ span: 10, offset: 1 }}
                         lg={{ span: 8, offset: 3 }}
                       >
-                        <CoinBottomInfo coinData={coinData} />
+                        <CoinBottomInfo coinData={coinData} selectedCoin={selectedCoin} />
                       </Col>
                     </Row>
                   </Col>
                 </Row>
               </Col>
-              <Row justify="center">
-                <Col
-                  xs={{ span: 24, offset: 0 }}
-                  md={{ span: 22, offset: 1 }}
-                  xl={{ span: 17, offset: 0 }}
-                >
-                  <div className="description">
-                    <div className="title">
-                      <Avatar size={50} src={coinData.image?.large} />
-                      {`About ${coinData.name}:`}
-                    </div>
-                    <div className="text">
-                      <div className="textWrap">
-                        {parse(`${coinData.description?.en}`)}
+              {coinData.description.en && (
+                <Row justify="center">
+                  <Col
+                    xs={{ span: 24, offset: 0 }}
+                    md={{ span: 22, offset: 1 }}
+                    xl={{ span: 17, offset: 0 }}
+                  >
+                    <div className="description">
+                      <div className="title">
+                        <Avatar size={50} src={coinData.image?.large} />
+                        {`About ${coinData.name}:`}
+                      </div>
+                      <div className="text">
+                        <div className="textWrap">
+                          {parse(`${coinData.description?.en}`)}
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </Col>
-              </Row>
+                  </Col>
+                </Row>
+              )}
             </Col>
           </Row>
         )}

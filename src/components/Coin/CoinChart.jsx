@@ -11,7 +11,7 @@ import { Spinner } from "../loadingSpinner/Spinner";
 export default function CoinChart(props) {
   const { selectedCoinC } = useContext(stateCoinsContext);
 
-  const [selectedCoin, setSelectedCoin] = selectedCoinC;
+  const [selectedCoin] = selectedCoinC;
   const [coinChartData, setChartData] = useState([]);
   const [lastInterval, setLastInterval] = useState();
   const [isLoading, setLoading] = useState(false);
@@ -58,7 +58,6 @@ export default function CoinChart(props) {
 
   const changeInterval = (e) => {
     if (lastInterval === e.target.value) {
-      console.log("returned", lastInterval, " e : ", e.target.value);
       return;
     }
     const chartInterval = Number(e.target.value)

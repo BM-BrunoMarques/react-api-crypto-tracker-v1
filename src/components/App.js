@@ -1,13 +1,12 @@
 import "../App.css";
 import React, { useState, useRef, createContext } from "react";
-
 import Coin from "./Coin/Coin";
 import CoinsHomeListing from "./CoinsHomeListing";
 import SearchBar from "./SearchBar";
-
 import { BrowserRouter, Route } from "react-router-dom";
 import { Layout, Row, Col } from "antd";
 const { Header, Content, Footer } = Layout;
+
 export const stateCoinsContext = createContext();
 
 function App() {

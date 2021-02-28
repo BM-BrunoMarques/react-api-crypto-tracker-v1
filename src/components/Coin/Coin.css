@@ -81,7 +81,6 @@
 .tagsContainer {
   display: flex;
   flex-wrap: wrap;
-  width: max-content;
 }
 
 .leftSide {
@@ -130,12 +129,16 @@
 .bottomInfo .info {
   text-align: center;
   border-left: 2px solid white;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
 }
 
 span.date {
   font-size: 10px;
   display: block;
   text-align: center;
+  width: 100%;
 }
 span.date:before {
   content: "(";
@@ -259,6 +262,9 @@ span.ant-tag span {
 /*mobile*/
 
 @media only screen and (max-width: 575px) {
+  .searchBar button.ant-btn.ant-btn-primary {
+    margin-right: 15px;
+  }
   .coinStage {
     max-height: 100%;
   }
