@@ -63,7 +63,6 @@ export default function Coin(props) {
     }
   }, [selectedCoin]);
 
-  console.log("COINDATA :  ", coinData);
   return (
     <Col className="coinStage" span={24}>
       <div className="coinWrap">
