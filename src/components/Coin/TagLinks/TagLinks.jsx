@@ -1,5 +1,5 @@
-import "../../App.css";
-import "./Coin.css";
+import "../../../App.css";
+import "./TagLinks.css";
 import React from "react";
 import { Tag } from "antd";
 import {
@@ -11,7 +11,7 @@ import {
   GithubOutlined,
   LinkOutlined,
 } from "@ant-design/icons";
-import { colors } from "../../utils/const";
+import { colors } from "../../../utils/const";
 
 export default function TagLinks(props) {
   const { coinData } = props;
@@ -28,8 +28,8 @@ export default function TagLinks(props) {
     }
     return (
       item?.length && (
-        <a target="_blank" href={item}>
-          <Tag key={url} icon={icon} color={color}>
+        <a key={(url, itemName)} rel="noopener noreferrer" target="_blank" href={item}>
+          <Tag icon={icon} color={color}>
             {itemName}
           </Tag>
         </a>
@@ -61,8 +61,8 @@ export default function TagLinks(props) {
 
   const renderSocialLinks = ({ icon, color, link, label }) =>
     link && (
-      <a target="_blank" href={link}>
-        <Tag key={label} icon={icon} color={color}>
+      <a key={label} rel="noopener noreferrer" target="_blank" href={link}>
+        <Tag icon={icon} color={color}>
           {label}
         </Tag>
       </a>
@@ -113,8 +113,8 @@ export default function TagLinks(props) {
   const renderReposLinks = ({ icon, color, link, label }) =>
     link[0] &&
     link.map((elLink, indx) => (
-      <a target="_blank" href={elLink}>
-        <Tag key={(label, indx)} icon={icon} color={color}>
+      <a key={(label, indx)} rel="noopener noreferrer" target="_blank" href={elLink}>
+        <Tag icon={icon} color={color}>
           {label}
         </Tag>
       </a>

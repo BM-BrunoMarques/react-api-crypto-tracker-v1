@@ -1,8 +1,9 @@
-import "../App.css";
-import React, { useEffect, useContext, useRef } from "react";
-import { getCoins, getAllCoinsList } from "../utils/api.js";
-import { Spinner } from "./loadingSpinner/Spinner";
-import { stateCoinsContext } from "./App";
+import "../../App.css";
+import React, { useEffect, useContext } from "react";
+import { getCoins, getAllCoinsList } from "../../utils/api.js";
+import { Spinner } from "../loadingSpinner/Spinner";
+import { stateCoinsContext } from "../App";
+import { endOfContentLabel } from "../../utils/const";
 import TableScroll from "./TableScroll/TableScroll";
 
 export default function CoinsHomeListing(props) {
@@ -11,22 +12,19 @@ export default function CoinsHomeListing(props) {
     numOfPagesC,
     stateCoinsC,
     isLoadingC,
-    scrollParentRefC,
     selectedCoinC,
     scrollPositionC,
     fetchDataFunctionC,
   } = useContext(stateCoinsContext);
-  const scrollParentRef = useRef(null);
 
   const [selectedCoin] = selectedCoinC;
   const [moreItems, setMoreItems] = moreItemsC;
   const [numOfPages, setnumOfPages] = numOfPagesC;
   const [stateValues, setStateValues] = stateCoinsC;
   const [isLoading, setLoading] = isLoadingC;
-  const [scrollPosition, setScrollPosition] = scrollPositionC;
-  const [fetchDataFunction, setFetchData] = fetchDataFunctionC;
+  const [scrollPosition, ] = scrollPositionC;
+  const [fetchDataFunction, ] = fetchDataFunctionC;
   //
-  const tip = "";
 
   useEffect(() => {
     if (!numOfPages) {
@@ -44,6 +42,7 @@ export default function CoinsHomeListing(props) {
       document?.getElementById(scrollPosition)?.scrollIntoView();
     }
   }, [selectedCoin]);
+
 
   const fetchData = () => {
     if (!moreItems || selectedCoin) return;
@@ -76,7 +75,7 @@ export default function CoinsHomeListing(props) {
           <TableScroll fetchData={fetchData} />
           {!moreItems && (
             <p style={{ textAlign: "center" }}>
-              <b>You have seen it all...</b>
+              <b>{endOfContentLabel}</b>
             </p>
           )}
         </div>

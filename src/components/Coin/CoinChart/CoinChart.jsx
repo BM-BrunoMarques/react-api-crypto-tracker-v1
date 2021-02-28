@@ -1,12 +1,12 @@
-import "../../App.css";
-import "./Coin.css";
+import "../../../App.css";
+import "./CoinChart.css";
 import React, { useState, useContext, useEffect } from "react";
-import { stateCoinsContext } from "../App";
+import { stateCoinsContext } from "../../App";
 import { Line } from "@ant-design/charts";
-import { getSelectedCoin } from "../../utils/api";
-import { formatPrice } from "../../utils/helpers";
-import { interval } from "../../utils/const";
-import { Spinner } from "../loadingSpinner/Spinner";
+import { getSelectedCoin } from "../../../utils/api";
+import { formatPrice } from "../../../utils/helpers";
+import { interval } from "../../../utils/const";
+import { Spinner } from "../../loadingSpinner/Spinner";
 
 export default function CoinChart(props) {
   const { selectedCoinC } = useContext(stateCoinsContext);

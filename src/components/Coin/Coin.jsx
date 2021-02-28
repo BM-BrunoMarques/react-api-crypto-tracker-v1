@@ -8,10 +8,10 @@ import { Spinner } from "../loadingSpinner/Spinner";
 import { Avatar, Row, Col } from "antd";
 import { getSelectedCoinData } from "../../utils/api";
 import parse from "html-react-parser";
-import TagLinks from "./TagLinks";
-import CoinChart from "./CoinChart";
-import CoinInfo from "./CoinInfo";
-import CoinBottomInfo from "./CoinBottomInfo";
+import TagLinks from "./TagLinks/TagLinks";
+import CoinChart from "./CoinChart/CoinChart";
+import CoinTopInfo from "./CoinInfo/CoinTopInfo";
+import CoinBottomInfo from "./CoinInfo/CoinBottomInfo";
 
 export default function Coin(props) {
   const { selectedCoinC, isLoadingC, scrollPositionC } = useContext(
@@ -120,7 +120,7 @@ export default function Coin(props) {
                       justifyContent: "center",
                     }}
                   >
-                    <CoinInfo coinData={coinData} />
+                    <CoinTopInfo coinData={coinData} />
                   </Col>
                 </Row>
                 <Row style={{ marginTop: "40px" }} justify="start">
@@ -139,7 +139,10 @@ export default function Coin(props) {
                         md={{ span: 10, offset: 1 }}
                         lg={{ span: 8, offset: 3 }}
                       >
-                        <CoinBottomInfo coinData={coinData} selectedCoin={selectedCoin} />
+                        <CoinBottomInfo
+                          coinData={coinData}
+                          selectedCoin={selectedCoin}
+                        />
                       </Col>
                     </Row>
                   </Col>

@@ -1,0 +1,52 @@
+/*charts*/
+
+.navigation {
+    display: flex;
+    justify-content: flex-end;
+    position: relative;
+    z-index: 100;
+  }
+  .navigation button {
+    margin-left: 3px;
+  }
+  
+  .bottomInfo .tagRow {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    border-top: 1px solid white;
+    padding: 3%;
+    align-items: center;
+  }
+  .description {
+    margin-top: 35px;
+  }
+  
+  .info .percent.negative {
+    color: red;
+  }
+  
+  .info .percent {
+    color: green;
+    font-size: 11px;
+    margin-left: 10px;
+  }
+  
+  .info .separator {
+    margin: 0 3px;
+  }
+  
+  /*Loader*/
+  
+  .loadingContainer {
+    position: absolute !important;
+    z-index: 100;
+  }
+  
+  .ant-spin-spinning {
+    position: absolute !important;
+    left: 38% !important;
+  }
+  
+  .ant-layout-footer {
+    z-index: 2;
+  }

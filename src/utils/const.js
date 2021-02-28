@@ -52,3 +52,6 @@ export const months = [
   "November",
   "December",
 ];
+
+
+export const endOfContentLabel = 'You have seen it all...'

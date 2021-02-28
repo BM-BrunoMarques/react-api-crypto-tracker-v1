@@ -1,21 +1,18 @@
-import "../../App.css";
-import "./Coin.css";
+import "../../../App.css";
+import "./CoinInfo.css";
 import React, { useState, useEffect } from "react";
 import {
   formatPrice,
   formatPercentage,
-  formatNumber,
   formatDate,
-  renderCoinInfo,
-} from "../../utils/helpers";
+} from "../../../utils/helpers";
+import { renderCoinInfo } from "./renderCoinInfo";
 
 export default function CoinBottomInfo(props) {
   const [coinDataTable, setCoinDataTable] = useState();
-  const { selectedCoin } = props;
 
   const typeMoney = formatPrice;
   const typePercent = formatPercentage;
-  const typeNumber = formatNumber;
   const typeDate = formatDate;
 
   function DataObj(data, label, type, addClass, separator) {
@@ -93,7 +90,6 @@ export default function CoinBottomInfo(props) {
     })();
   }, [props.coinData]);
 
-  console.log(props.coinData);
   return (
     <div className="bottomInfo">
       {coinDataTable && (

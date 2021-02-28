@@ -1,0 +1,46 @@
+/* tags*/
+.tagRow {
+  margin-bottom: 5px;
+  display: flex;
+  font-size: 14px;
+}
+
+.tagRow.social span.ant-tag,
+.tagRow.repos span.ant-tag {
+  color: white;
+  font-weight: bold;
+}
+
+.tagRow.social span.ant-tag a,
+.tagRow.repos span.ant-tag a {
+  color: white;
+}
+
+.tagRow.social span.ant-tag.forum a {
+  color: #428bca;
+}
+
+.tagsContainer {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.leftSide {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.tagLegend {
+  display: inline-table;
+  font-weight: 500;
+  font-size: 12px;
+  font-weight: bold;
+  margin-right: 2%;
+}
+.leftSide .tagLegend {
+  width: 75px;
+}
+
+.rightSide .tagRow {
+  flex-direction: column;
+}

@@ -1,8 +1,8 @@
 import React, { useContext, useEffect } from "react";
-import { Table, Avatar } from "antd";
+import { Avatar } from "antd";
 import { TinyLine } from "@ant-design/charts";
-import { stateCoinsContext } from "../App";
-import { formatPrice, formatPercentage } from "../../utils/helpers";
+import { stateCoinsContext } from "../../App";
+import { formatPrice, formatPercentage } from "../../../utils/helpers";
 import { useHistory } from "react-router-dom";
 import { StickyTable, Row, Cell } from "react-sticky-table";
 import LazyLoad from "react-lazyload";
@@ -13,7 +13,7 @@ export default function TableScroll(props) {
   const { stateCoinsC, isLoadingC } = useContext(stateCoinsContext);
 
   const [stateValues] = stateCoinsC;
-  const [isLoading, setLoading] = isLoadingC;
+  const [, setLoading] = isLoadingC;
   const history = useHistory();
 
   useEffect(() => {

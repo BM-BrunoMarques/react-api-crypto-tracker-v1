@@ -13,7 +13,7 @@ export default function SearchBar(props) {
     stateCoinsContext
   );
   const [selectedCoin, setSelectedCoin] = selectedCoinC;
-  const [isLoading, setLoading] = isLoadingC;
+  const [, setLoading] = isLoadingC;
   const [searchText, setSearchText] = searchTextC;
   //useState
   const [searchCoins, setCoins] = useState([]);

@@ -1,7 +1,7 @@
 import "../App.css";
 import React, { useState, useRef, createContext } from "react";
 import Coin from "./Coin/Coin";
-import CoinsHomeListing from "./CoinsHomeListing";
+import CoinsHomeListing from "./CoinsHomeListing/CoinsHomeListing";
 import SearchBar from "./SearchBar";
 import { BrowserRouter, Route } from "react-router-dom";
 import { Layout, Row, Col } from "antd";

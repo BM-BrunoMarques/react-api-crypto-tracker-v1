@@ -1,8 +1,9 @@
 import React from "react";
 import { Row, Col } from "antd";
-import { formatPrice, formatNumber, renderCoinInfo } from "../../utils/helpers";
+import { formatPrice, formatNumber } from "../../../utils/helpers";
+import { renderCoinInfo } from "./renderCoinInfo";
 
-export default function CoinDataTable(props) {
+export default function CoinTopInfo(props) {
   const { coinData } = props;
   const typeMoney = formatPrice;
   const typeNumber = formatNumber;
