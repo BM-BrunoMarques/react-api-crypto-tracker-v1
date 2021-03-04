@@ -58,6 +58,7 @@ span.ant-tag {
   padding: 1px 5px;
   border: none;
   margin-bottom: 5px;
+  border-radius: 3px;
 }
 
 span.ant-tag a {
